@@ -100,7 +100,9 @@ export class ArtistMatcher {
         if (e.common) {
           const capitalised = /\p{Lu}/u.test(m[0]);
           if ((!capitalised && !opts.lenient) || !MUSIC_CONTEXT.test(window)) continue; // everyday word, not the artist
-          needs_resolution = true;
+          // Exact, case-matched multi-word canonical name ("The Local Train") is strong; anything else goes to AI resolution.
+          const exactCanonical = m[0] === e.artist_name && e.artist_name.trim().includes(" ");
+          needs_resolution = !exactCanonical;
         }
         const blocked = this.blockFor(e.artist_id, e.alias, window, text, start, end);
         const role: ArtistMatch["role"] = SUPPORT_RE.test(before) ? "support" : "headliner";
