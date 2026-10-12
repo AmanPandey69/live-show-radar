@@ -29,7 +29,7 @@ export const TierZ = z.object({
 export type TierCandidate = z.infer<typeof TierZ>;
 
 export const CandidateZ = z.object({
-  artists: z.array(z.object({ name: z.string().min(1).max(120), role: z.enum(["headliner", "support"]), evidence })).min(1).max(30),
+  artists: z.array(z.object({ name: z.string().min(1).max(120), role: z.enum(["headliner", "support"]), evidence })).max(30), // may be empty for JSON-LD; the matcher reads the title
   title: z.string().min(1).max(200),
   is_festival: z.boolean(),
   festival_name: z.string().max(120).nullable(),

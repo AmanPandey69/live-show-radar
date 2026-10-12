@@ -50,6 +50,11 @@ Rules every adapter follows:
 ### 2. Bing News RSS
 `GET https://www.bing.com/news/search?q=Bengaluru+concert&format=rss` → 200, RSS 2.0 (~10 KB).
 Bing's robots.txt disallows `/search` but **not** `/news/search`.
+Feed terms (in the RSS `<copyright>`): results may only be used for rendering in an RSS aggregator for
+*personal, non-commercial use*. That fits a single-user alert tool. To stay inside it:
+- we keep only the headline, publisher URL and a short snippet as evidence, never the full feed;
+- we don't redistribute the feed;
+- the test fixture is a synthetic file in the same format.
 
 ### 2b. Google News RSS
 `GET https://news.google.com/rss/search?q="Bengaluru"+concert&hl=en-IN&gl=IN&ceid=IN:en` → 200, 100 items, e.g.
