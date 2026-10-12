@@ -163,7 +163,8 @@ export class Engine {
       const artist = this.artists.find((a) => a.id === m.artist_id)!;
       const r = await aiResolve(this.gemini, { artist: artist.name, genres: artist.genres, isInternational: artist.is_international, text: o.text.slice(0, 3000), cacheKey: `${o.content_hash}|${artist.id}` });
       if (r.ok && r.data.same_artist && !r.data.is_tribute_or_cover && r.data.confidence >= this.settings.confirm_threshold) resolved.push(m);
-      else if (!r.ok && o.is_primary && /\b(live|concert|gig|unplugged|in concert)\b/i.test(c.title)) resolved.push(m); // offline fallback: primary ticketing title with music wording only
+      // Offline fallback (AI unavailable): only a primary ticketing title, with music wording, that spells the artist exactly (case included).
+      else if (!r.ok && o.is_primary && m.matched === artist.name && /\b(live|concert|gig|unplugged|in concert)\b/i.test(c.title)) resolved.push(m);
     }
     if (!resolved.length) return null;
     const roleOf = (m: ArtistMatch) => c.artists.find((a) => this.matcher.match(a.name).some((x) => x.artist_id === m.artist_id))?.role ?? m.role;

@@ -11,6 +11,7 @@ export interface ArtistMatch {
   artist_id: string;
   artist_name: string;
   alias: string;
+  matched: string; // exact text as it appears in the source
   index: number;
   evidence: string;
   role: "headliner" | "support";
@@ -113,6 +114,7 @@ export class ArtistMatcher {
             artist_id: e.artist_id,
             artist_name: e.artist_name,
             alias: e.alias,
+            matched: m[0],
             index: start,
             evidence: window.replace(/\s+/g, " ").trim(),
             role: prev && prev.role === "headliner" ? "headliner" : role,

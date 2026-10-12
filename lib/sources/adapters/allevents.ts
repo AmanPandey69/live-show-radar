@@ -8,7 +8,6 @@ export const ALLEVENTS_PAGES = [
   "https://allevents.in/mumbai/concerts",
   "https://allevents.in/delhi/concerts",
   "https://allevents.in/hyderabad/concerts",
-  "https://allevents.in/pune/concerts",
   "https://allevents.in/chennai/concerts",
   "https://allevents.in/kolkata/concerts",
   "https://allevents.in/goa/concerts",
@@ -30,7 +29,14 @@ export const alleventsAdapter: SourceAdapter = {
     const others = await rotate(ctx.repo, "allevents:cursor", ALLEVENTS_PAGES.slice(1), ctx.lane === "fast" ? 2 : ALLEVENTS_PAGES.length);
     for (const url of [ALLEVENTS_PAGES[0], ...others]) {
       if (!timeLeft(ctx.deadline)) break;
-      const page = await ctx.http.get(url, { conditional: true, minIntervalMs: this.rateLimit.minIntervalMs });
+      let page;
+      try {
+        page = await ctx.http.get(url, { conditional: true, minIntervalMs: this.rateLimit.minIntervalMs });
+      } catch (e) {
+        if ((e as Error).name === "BlockedError") throw e;
+        ctx.log(`allevents: ${(e as Error).message}`); // one bad page (e.g. 404) must not fail the source
+        continue;
+      }
       if (page.notModified) continue;
       for (const ev of extractJsonLd(page.body).filter(isEvent)) {
         const name = String(ev.name ?? "");

@@ -31,20 +31,29 @@ export const isEvent = (j: Json) => {
 };
 
 const str = (v: unknown): string | null => (typeof v === "string" && v.trim() ? v.trim() : null);
+/** ISO string or null (never throws on malformed dates). */
+const safeIso = (v: unknown): string | null => {
+  if (typeof v !== "string" || !v.trim()) return null;
+  const t = Date.parse(v);
+  return Number.isNaN(t) ? null : new Date(t).toISOString();
+};
+
+/** Which raw field names the city, quoted exactly as it appears in the JSON (so the truth gate can verify it). */
+function cityQuote(loc: Json | undefined, venue: string | null, name: string): { city: string; quote: string } | null {
+  const a = loc?.address;
+  const tryField = (k: string, v: unknown) => (typeof v === "string" && canonicalCity(v) ? { city: canonicalCity(v)!, quote: q(k, v) } : null);
+  if (typeof a === "string") { const r = tryField("address", a); if (r) return r; }
+  if (a && typeof a === "object") {
+    for (const k of ["addressLocality", "addressRegion", "streetAddress", "name", "postalCode"]) {
+      const r = tryField(k, (a as Json)[k]);
+      if (r) return r;
+    }
+  }
+  return tryField("name", venue) ?? tryField("name", name);
+}
 
 /** Quote: the shortest JSON fragment `"key":"value"` as it would appear in compact JSON. */
 const q = (key: string, value: unknown) => `"${key}": ${JSON.stringify(value)}`;
-
-function addressText(loc: Json | undefined): string | null {
-  if (!loc) return null;
-  const a = loc.address;
-  if (typeof a === "string") return a;
-  if (a && typeof a === "object") {
-    const o = a as Json;
-    return [o.streetAddress, o.addressLocality, o.addressRegion, o.postalCode].filter((x) => typeof x === "string").join(", ") || null;
-  }
-  return null;
-}
 
 const AVAIL: Record<string, TierCandidate["availability"]> = {
   InStock: "open", LimitedAvailability: "open", OnlineOnly: "open", InStoreOnly: "open",
@@ -69,20 +78,22 @@ function offerTiers(offers: unknown, eventStartIso: string | null, now: Date): T
     let availability = AVAIL[availRaw] ?? "unknown";
     const price = typeof o.price === "number" ? o.price : Number(o.price);
     const validFrom = str(o.validFrom);
+    const validFromIso = safeIso(validFrom);
     let sale_start_date: string | null = null;
     let sale_start_time: string | null = null;
-    if (validFrom && Date.parse(validFrom) > now.getTime()) {
-      sale_start_date = utcToIstDate(new Date(validFrom).toISOString());
-      sale_start_time = utcToIstTime(new Date(validFrom).toISOString());
+    if (validFromIso && Date.parse(validFromIso) > now.getTime()) {
+      sale_start_date = utcToIstDate(validFromIso);
+      sale_start_time = utcToIstTime(validFromIso);
       if (availability === "unknown" || availability === "open") availability = "upcoming";
     }
     // `availabilityEnds` equal to the show start is NOT an early-bird deadline (District sets it on every tier).
     const ends = str(o.availabilityEnds);
+    const endsIso = safeIso(ends);
     let sale_end_date: string | null = null;
     let sale_end_time: string | null = null;
-    if (ends && (!eventStartIso || Math.abs(Date.parse(ends) - Date.parse(eventStartIso)) > 3 * 3_600_000)) {
-      sale_end_date = utcToIstDate(new Date(ends).toISOString());
-      sale_end_time = utcToIstTime(new Date(ends).toISOString());
+    if (endsIso && (!eventStartIso || Math.abs(Date.parse(endsIso) - Date.parse(eventStartIso)) > 3 * 3_600_000) && Date.parse(endsIso) > now.getTime()) {
+      sale_end_date = utcToIstDate(endsIso);
+      sale_end_time = utcToIstTime(endsIso);
     }
     const evidenceParts = [q("name", name)];
     if (o.availability) evidenceParts.push(q("availability", o.availability));
@@ -108,13 +119,14 @@ export function jsonLdToCandidate(ev: Json, pageUrl: string, now: Date = new Dat
   const start = str(ev.startDate);
   const loc = (Array.isArray(ev.location) ? ev.location[0] : ev.location) as Json | undefined;
   const venue = loc ? str(loc.name) : null;
-  const addr = addressText(loc);
-  const city = canonicalCity(addr) ?? canonicalCity(venue) ?? canonicalCity(name);
-  const cityEvidence = canonicalCity(addr) ? q("address", addr) : canonicalCity(venue) ? q("name", venue) : q("name", name);
-  if (!name || !city) return null; // not India (or unknown city): out of scope
+  if (!name) return null;
+  const cq = cityQuote(loc, venue, name);
+  if (!cq) return null; // not India (or unknown city): out of scope
+  const city = cq.city;
+  const cityEvidence = cq.quote;
 
-  const hasTime = !!start && /T\d{2}:\d{2}/.test(start);
-  const startIso = start ? new Date(start).toISOString() : null;
+  const startIso = safeIso(start);
+  const hasTime = !!startIso && /T\d{2}:\d{2}/.test(start!);
   const status = String(ev.eventStatus ?? "").split("/").pop();
   const performers = (Array.isArray(ev.performer) ? ev.performer : ev.performer ? [ev.performer] : []) as Json[];
   const tiers = offerTiers(ev.offers, startIso, now);
@@ -133,10 +145,10 @@ export function jsonLdToCandidate(ev: Json, pageUrl: string, now: Date = new Dat
     venue_evidence: venue ? q("name", venue) : null,
     city,
     city_evidence: cityEvidence,
-    date: startIso ? (hasTime ? utcToIstDate(startIso) : start!.slice(0, 10)) : null,
+    date: startIso ? (hasTime ? utcToIstDate(startIso) : start!.slice(0, 10)) : null, // malformed dates → null ("date not stated")
     date_evidence: start ? q("startDate", start) : null,
     show_time: startIso && hasTime ? utcToIstTime(startIso) : null,
-    doors_time: str(ev.doorTime) ? utcToIstTime(new Date(String(ev.doorTime)).toISOString()) : null,
+    doors_time: safeIso(ev.doorTime) ? utcToIstTime(safeIso(ev.doorTime)!) : null,
     time_evidence: start && hasTime ? q("startDate", start) : null,
     status_signal: status === "EventCancelled" ? "cancelled" : status === "EventPostponed" || status === "EventRescheduled" ? "postponed" : "none",
     status_evidence: status && status !== "EventScheduled" ? q("eventStatus", ev.eventStatus) : null,

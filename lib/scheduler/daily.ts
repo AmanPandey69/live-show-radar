@@ -1,6 +1,6 @@
 import type { Repo } from "@/lib/db/repo";
 import { syncSpotify } from "@/lib/spotify/spotify";
-import { seedArtists, seedVenues } from "@/lib/seed";
+import { seedArtists, seedVenues, syncSeedGuards } from "@/lib/seed";
 import { utcToIstDate } from "@/lib/text/dates-ist";
 import { deliver } from "@/lib/notify/dispatch";
 import { makeEngine, runLane } from "./lanes";
@@ -14,6 +14,7 @@ export async function runDaily(repo: Repo) {
   try { out.spotify = (await syncSpotify(repo)) ?? "not connected"; } catch (e) { out.spotify = `error: ${(e as Error).message}`; }
   out.seeded = await seedArtists(repo, { onlyIfEmpty: true });
   out.venues = await seedVenues(repo);
+  out.guards = await syncSeedGuards(repo);
   const sweep = await runLane(repo, "daily", { budgetMs: 200_000 });
   out.sweep = { status: sweep.status, adapters: sweep.stats.adapters };
 

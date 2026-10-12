@@ -13,7 +13,7 @@ if (BUILD && process.env.SKIP_BUILD_SCAN === "1") {
 }
 const { getRepo } = await import("../lib/db");
 const { runLane, makeEngine } = await import("../lib/scheduler/lanes");
-const { seedArtists, seedVenues, seedDemo } = await import("../lib/seed");
+const { seedArtists, seedVenues, seedDemo, syncSeedGuards } = await import("../lib/seed");
 
 /**
  * `npm run scan:once`: a REAL live scan (all sources incl. grounded scout) against the configured database.
@@ -24,6 +24,7 @@ console.log(`repo: ${repo.kind}${repo.kind === "memory" ? " (no DATABASE_URL, re
 const seeded = await seedArtists(repo, { onlyIfEmpty: true });
 if (seeded) console.log(`seeded ${seeded} artists`);
 await seedVenues(repo);
+await syncSeedGuards(repo);
 if ((await repo.listEvents({ includeDemo: true })).filter((e) => e.is_demo).length === 0) {
   console.log(`seeded ${await seedDemo(await makeEngine(repo))} demo events`);
 }

@@ -24,6 +24,19 @@ export async function seedArtists(repo: Repo, opts: { onlyIfEmpty?: boolean } = 
   return n;
 }
 
+/** Add any new seed aliases/namesake blocks to artists that already exist (never touches affinity or Spotify data). */
+export async function syncSeedGuards(repo: Repo) {
+  const existing = await repo.listArtists();
+  let n = 0;
+  for (const a of artistsSeed.artists as SeedArtist[]) {
+    const row = existing.find((x) => x.name.toLowerCase() === a.name.toLowerCase());
+    if (!row) continue;
+    for (const al of a.aliases) await repo.addAlias(row.id, al, /[^\x00-\x7F]/.test(al) ? "transliteration" : "stage");
+    for (const b of a.blocks) { await repo.addBlock({ artist_id: row.id, pattern: b, reason: "namesake" }); n++; }
+  }
+  return n;
+}
+
 export async function seedVenues(repo: Repo) {
   for (const v of venuesSeed.venues) await repo.upsertVenue(v);
   return venuesSeed.venues.length;
