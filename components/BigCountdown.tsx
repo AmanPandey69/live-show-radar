@@ -18,7 +18,7 @@ export function BigCountdown({ at, label }: { at: string; label: string }) {
       <div className="flex items-center gap-2">
         {parts.map(([l, v], k) => (
           <div key={l} className="flex items-center gap-2">
-            <div className="glass rounded-2xl w-[68px] sm:w-[76px] py-2.5 text-center">
+            <div className="rounded-2xl w-[68px] sm:w-[76px] py-2.5 text-center bg-[#0c0717]/80 backdrop-blur-xl border border-white/10">
               <div className="display text-[28px] sm:text-[32px] font-bold leading-none tabular-nums">{now === null ? "--" : String(v).padStart(2, "0")}</div>
               <div className="text-[10px] text-white/60 mt-1">{l}</div>
             </div>

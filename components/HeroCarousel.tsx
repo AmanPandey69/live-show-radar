@@ -38,6 +38,7 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
       {/* purple blend overlays */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#07040f] via-[#07040f]/55 to-[#2e1065]/30" />
       <div className="absolute inset-0 mix-blend-color bg-gradient-to-br from-[#6d28d9]/45 via-transparent to-[#db2777]/40" />
+      <div className="absolute inset-0 bg-gradient-to-l from-[#07040f]/75 via-[#07040f]/25 to-transparent" />
       <div className="hero-word">LIVE</div>
 
       <div className="relative z-10 p-6 sm:p-9">
@@ -54,7 +55,7 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
             {s?.target && <div key={`cd-${s.id}`} className="reveal mt-5"><BigCountdown at={s.target} label={s.targetLabel} /></div>}
           </div>
           {s && (
-            <div key={s.id} className="reveal glass rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
+            <div key={s.id} className="reveal rounded-2xl p-4 sm:p-5 flex flex-col gap-3 bg-[#0c0717]/88 backdrop-blur-2xl border border-white/10 shadow-[0_20px_60px_-20px_rgba(0,0,0,.9)]">
               <div className="min-w-0">
                 <div className="text-xs uppercase tracking-[.14em] text-[#f0abfc] font-semibold">Now featuring · {s.when}</div>
                 <div className="display text-2xl font-bold truncate mt-1">{s.artist}</div>
