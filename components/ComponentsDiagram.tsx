@@ -38,7 +38,7 @@ export function ComponentsDiagram() {
 
       {/* Our app boundary */}
       <rect x="40" y="180" width="1120" height="318" rx="14" fill="none" stroke="#4a4a4a" strokeDasharray="7 7" />
-      <text x="70" y="216" fill="#d6d3cb" fontSize={21} fontFamily="Inter, system-ui, sans-serif">Live Show Radar app on Vercel</text>
+      <text x="250" y="216" fill="#d6d3cb" fontSize={21} fontFamily="Inter, system-ui, sans-serif">Live Show Radar app on Vercel</text>
 
       {/* Row: inputs */}
       <Box x={X[0]} y={Y.top} kind="ext" title="Spotify" sub="Karan's followed artists" />
