@@ -1,0 +1,60 @@
+{
+ "_note": "CLEARLY FAKE sample events (is_demo=true, SAMPLE badge). They never trigger real Telegram/email.",
+ "events": [
+  {
+   "key": "demo-blr-eb",
+   "artist": "Prateek Kuhad",
+   "title": "SAMPLE: Prateek Kuhad: Sample Tour (DEMO DATA)",
+   "venue": "Sample Hall (DEMO)",
+   "city": "Bengaluru",
+   "days_ahead": 40,
+   "time": "19:30",
+   "tiers": [
+    {
+     "tier_type": "early_bird",
+     "name_raw": "SAMPLE Early Bird",
+     "price": 999,
+     "availability": "open",
+     "sale_end_days": 3,
+     "quantity_note": "limited"
+    },
+    {
+     "tier_type": "general",
+     "name_raw": "SAMPLE General",
+     "price": 1999,
+     "availability": "upcoming",
+     "sale_start_days": 4
+    }
+   ]
+  },
+  {
+   "key": "demo-bom-presale",
+   "artist": "Hozier",
+   "title": "SAMPLE: Hozier Live in Mumbai (DEMO DATA)",
+   "venue": "Sample Arena (DEMO)",
+   "city": "Mumbai",
+   "days_ahead": 70,
+   "time": "20:00",
+   "tiers": [
+    {
+     "tier_type": "presale_card",
+     "name_raw": "SAMPLE Card Presale",
+     "price": null,
+     "availability": "upcoming",
+     "sale_start_days": 2
+    }
+   ]
+  },
+  {
+   "key": "demo-hyd-rumour",
+   "artist": "Seedhe Maut",
+   "title": "SAMPLE: Seedhe Maut (DEMO DATA, rumoured)",
+   "venue": null,
+   "city": "Hyderabad",
+   "days_ahead": 55,
+   "time": null,
+   "tiers": [],
+   "rumour": true
+  }
+ ]
+}

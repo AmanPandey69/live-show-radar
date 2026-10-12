@@ -23,6 +23,8 @@ export interface RawInteraction {
   output_text?: string;
   steps?: unknown[];
   usage?: { total_input_tokens?: number; total_output_tokens?: number; grounding_tool_count?: { count?: number }[] };
+  cost_usd?: number;
+  served_by?: string | null;
 }
 
 export interface InteractionRequest {
@@ -59,6 +61,51 @@ export function sdkTransport(apiKey: string): Transport {
       const status = err.status ?? err.code ?? (/\b429\b|RESOURCE_EXHAUSTED/.test(String(err.message)) ? 429 : 0);
       throw new HttpStatusError(Number(status) || 0, String(err.message ?? e));
     }
+  };
+}
+
+/**
+ * OpenRouter gateway (the only AI access in production): Google models only, served by Google's own
+ * infrastructure (provider.only = google-vertex / google-ai-studio, no fallbacks). Grounding = OpenRouter web
+ * plugin with engine "native" (the provider's built-in Google Search). Response is mapped to the same shape.
+ */
+export function openRouterTransport(apiKey: string): Transport {
+  return async (req) => {
+    if (!req.model.startsWith("google/")) throw new HttpStatusError(400, `refusing non-Google model ${req.model}`);
+    const toPart = (p: Record<string, unknown>) =>
+      p.type === "image" ? { type: "image_url", image_url: { url: `data:${p.mime_type};base64,${p.data}` } } : { type: "text", text: String(p.text ?? "") };
+    const body = {
+      model: req.model,
+      messages: [
+        { role: "system", content: req.system_instruction },
+        { role: "user", content: typeof req.input === "string" ? req.input : (req.input as Record<string, unknown>[]).map(toPart) },
+      ],
+      temperature: req.generation_config.temperature,
+      response_format: { type: "json_schema", json_schema: { name: "result", strict: false, schema: req.response_format.schema } },
+      ...(req.tools?.length ? { plugins: [{ id: "web", engine: "native", max_results: 5 }] } : {}),
+      provider: { only: ["google-vertex", "google-ai-studio"], allow_fallbacks: false, require_parameters: true },
+      usage: { include: true },
+    };
+    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json", "x-title": "Live Show Radar" },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(90_000),
+    });
+    const j = (await res.json().catch(() => ({}))) as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    if (!res.ok || j.error) throw new HttpStatusError(res.status === 200 ? Number(j.error?.code) || 500 : res.status, String(j.error?.message ?? `HTTP ${res.status}`));
+    const msg = j.choices?.[0]?.message ?? {};
+    const text = typeof msg.content === "string" ? msg.content : "";
+    const annotations = ((msg.annotations ?? []) as Record<string, any>[]) // eslint-disable-line @typescript-eslint/no-explicit-any
+      .filter((a) => a.type === "url_citation")
+      .map((a) => ({ type: "url_citation", url: a.url_citation?.url, title: a.url_citation?.title, content: a.url_citation?.content, start_index: a.url_citation?.start_index, end_index: a.url_citation?.end_index }));
+    return {
+      output_text: text,
+      steps: [{ type: "model_output", content: [{ type: "text", text, annotations }] }],
+      usage: { total_input_tokens: j.usage?.prompt_tokens, total_output_tokens: j.usage?.completion_tokens, grounding_tool_count: req.tools?.length ? [{ count: 1 }] : [] },
+      cost_usd: typeof j.usage?.cost === "number" ? j.usage.cost : undefined,
+      served_by: j.provider ?? null,
+    } as RawInteraction;
   };
 }
 
@@ -99,7 +146,8 @@ function extractCitations(steps: unknown[] | undefined): { citations: Citation[]
           if (a.type !== "url_citation" || typeof a.url !== "string") continue;
           const si = Number(a.start_index ?? a.startIndex ?? -1);
           const ei = Number(a.end_index ?? a.endIndex ?? -1);
-          citations.push({ url: a.url, title: typeof a.title === "string" ? a.title : null, cited_text: si >= 0 && ei > si ? text.slice(si, ei) : null });
+          const content = typeof a.content === "string" && a.content ? a.content : null;
+          citations.push({ url: a.url, title: typeof a.title === "string" ? a.title : null, cited_text: content ?? (si >= 0 && ei > si ? text.slice(si, ei) : null) });
         }
       }
     }
@@ -129,13 +177,14 @@ export class Gemini {
 
   static fromEnv(repo: Repo, transport?: Transport): Gemini {
     const e = env();
+    const viaOpenRouter = !e.MOCK_MODE && !!e.OPENROUTER_API_KEY;
     return new Gemini(repo, {
       apiKey: e.MOCK_MODE ? undefined : e.GEMINI_API_KEY,
-      model: e.GEMINI_MODEL,
+      model: viaOpenRouter && !e.GEMINI_MODEL.startsWith("google/") ? `google/${e.GEMINI_MODEL}` : e.GEMINI_MODEL,
       dailyCalls: e.GEMINI_DAILY_CALL_BUDGET,
       dailyGrounded: e.GEMINI_DAILY_GROUNDED_BUDGET,
       groundingEnabled: e.GEMINI_GROUNDING_ENABLED,
-      transport,
+      transport: transport ?? (viaOpenRouter ? openRouterTransport(e.OPENROUTER_API_KEY!) : undefined),
     });
   }
 

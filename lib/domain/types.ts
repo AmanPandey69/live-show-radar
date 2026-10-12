@@ -1,4 +1,4 @@
-// Persisted shapes mirror supabase/migrations/0001_init.sql (snake_case on purpose:
+// Persisted shapes mirror db/migrations/0001_init.sql (snake_case on purpose:
 // no mapping layer between the DB and the app).
 
 export type Affinity = "must_see" | "like" | "casual";

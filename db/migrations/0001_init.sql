@@ -1,7 +1,7 @@
--- Live Show Radar: initial schema.
--- Paste into Supabase Dashboard → SQL Editor → Run. Safe to re-run (IF NOT EXISTS everywhere).
+-- Live Show Radar: initial schema (Neon Postgres).
+-- Applied by `npm run db:migrate` (scripts/migrate.ts). Safe to re-run (IF NOT EXISTS everywhere).
 -- All timestamps are UTC (timestamptz). The UI renders them in Asia/Kolkata.
--- RLS is enabled with NO policies: only the service-role key (server side) can read or write.
+-- Only server code holds DATABASE_URL; nothing is exposed to the browser.
 
 create extension if not exists pgcrypto;
 
@@ -68,7 +68,7 @@ create table if not exists events (
   venue_name_raw     text,
   city               text not null,
   start_at           timestamptz,           -- UTC; null when only the date is known
-  start_date_local   date,                  -- IST calendar date (always set when known)
+  start_date_local   text,                  -- IST calendar date 'YYYY-MM-DD' (text: avoids driver TZ shifts)
   start_local        text,                  -- display string as stated by source, e.g. "Sat 14 Nov, 7:00 PM"
   doors_at           timestamptz,
   status             text not null default 'announced'
@@ -305,16 +305,4 @@ begin
     set holder = excluded.holder, expires_at = excluded.expires_at
     where locks.expires_at < now() or locks.holder = excluded.holder;
   return exists (select 1 from locks where name = p_name and holder = p_holder);
-end $$;
-
--- Enable RLS everywhere (no policies → anon key gets nothing).
-do $$
-declare t text;
-begin
-  foreach t in array array['artists','artist_aliases','artist_blocks','venues','events','event_sources','ticket_tiers',
-    'sources','source_health','http_cache','observations','whispers','alerts','notification_deliveries','reminders',
-    'feedback','scan_runs','locks','settings','gemini_usage','gemini_cache','spotify_tokens']
-  loop
-    execute format('alter table %I enable row level security', t);
-  end loop;
 end $$;

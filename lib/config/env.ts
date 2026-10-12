@@ -11,7 +11,8 @@ const bool = z
 
 const EnvZ = z.object({
   MOCK_MODE: bool,
-  GEMINI_API_KEY: z.string().optional(),
+  GEMINI_API_KEY: z.string().optional(), // direct Gemini API (optional)
+  OPENROUTER_API_KEY: z.string().optional(), // preferred gateway: Google models only, Google infrastructure only
   GEMINI_MODEL: z.string().default("gemini-3.8-flash"),
   GEMINI_DAILY_CALL_BUDGET: z.coerce.number().int().nonnegative().default(400),
   GEMINI_DAILY_GROUNDED_BUDGET: z.coerce.number().int().nonnegative().default(160),
@@ -25,8 +26,7 @@ const EnvZ = z.object({
   RESEND_API_KEY: z.string().optional(),
   FROM_EMAIL: z.string().optional(),
   ALERT_EMAIL: z.string().optional(),
-  SUPABASE_URL: z.string().optional(),
-  SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+  DATABASE_URL: z.string().optional(), // Neon (Vercel Neon integration sets this automatically)
   CRON_SECRET: z.string().optional(),
   ADMIN_PASSWORD: z.string().optional(),
   TOKEN_ENCRYPTION_KEY: z.string().optional(),
@@ -51,8 +51,8 @@ export function resetEnv() {
 }
 
 export const isMock = () => env().MOCK_MODE;
-export const hasDb = () => !isMock() && !!env().SUPABASE_URL && !!env().SUPABASE_SERVICE_ROLE_KEY;
-export const hasGemini = () => !isMock() && !!env().GEMINI_API_KEY;
+export const hasDb = () => !isMock() && !!env().DATABASE_URL;
+export const hasGemini = () => !isMock() && (!!env().OPENROUTER_API_KEY || !!env().GEMINI_API_KEY);
 export const hasTelegram = () => !isMock() && !!env().TELEGRAM_BOT_TOKEN && !!env().TELEGRAM_CHAT_ID;
 export const hasEmail = () => !isMock() && !!env().RESEND_API_KEY && !!env().FROM_EMAIL && !!env().ALERT_EMAIL;
 export const hasSpotify = () => !!env().SPOTIFY_CLIENT_ID && !!env().SPOTIFY_REDIRECT_URI;

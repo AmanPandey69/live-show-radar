@@ -86,6 +86,8 @@ function offerTiers(offers: unknown, eventStartIso: string | null, now: Date): T
     }
     const evidenceParts = [q("name", name)];
     if (o.availability) evidenceParts.push(q("availability", o.availability));
+    if (sale_start_date && validFrom) evidenceParts.push(q("validFrom", validFrom));
+    if (sale_end_date && ends) evidenceParts.push(q("availabilityEnds", ends));
     if (o.price != null) evidenceParts.push(q("price", o.price));
     return [{
       tier_type: classifyTier(name) ?? "general",
@@ -108,6 +110,7 @@ export function jsonLdToCandidate(ev: Json, pageUrl: string, now: Date = new Dat
   const venue = loc ? str(loc.name) : null;
   const addr = addressText(loc);
   const city = canonicalCity(addr) ?? canonicalCity(venue) ?? canonicalCity(name);
+  const cityEvidence = canonicalCity(addr) ? q("address", addr) : canonicalCity(venue) ? q("name", venue) : q("name", name);
   if (!name || !city) return null; // not India (or unknown city): out of scope
 
   const hasTime = !!start && /T\d{2}:\d{2}/.test(start);
@@ -129,7 +132,7 @@ export function jsonLdToCandidate(ev: Json, pageUrl: string, now: Date = new Dat
     venue,
     venue_evidence: venue ? q("name", venue) : null,
     city,
-    city_evidence: addr ? q("address", addr) : q("name", name),
+    city_evidence: cityEvidence,
     date: startIso ? (hasTime ? utcToIstDate(startIso) : start!.slice(0, 10)) : null,
     date_evidence: start ? q("startDate", start) : null,
     show_time: startIso && hasTime ? utcToIstTime(startIso) : null,

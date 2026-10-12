@@ -8,9 +8,9 @@ export type New<T extends { id: string }> = Omit<T, "id" | "created_at" | "updat
 export interface HttpCacheRow { url: string; etag: string | null; last_modified: string | null; content_hash: string | null; fetched_at: string }
 export interface SpotifyTokensRow { access_enc: string; refresh_enc: string; expires_at: string; scope: string | null }
 
-/** Storage boundary. `MemoryRepo` (mock mode, tests) and `SupabaseRepo` (production) implement it. */
+/** Storage boundary. `MemoryRepo` (mock mode, tests) and `NeonRepo` (production) implement it. */
 export interface Repo {
-  readonly kind: "memory" | "supabase";
+  readonly kind: "memory" | "neon";
 
   // artists
   listArtists(): Promise<Artist[]>;

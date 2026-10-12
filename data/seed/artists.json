@@ -1,0 +1,663 @@
+{
+ "_note": "Real artist names used when Spotify is not connected. ~25 international + ~35 Indian. No claims about any tour.",
+ "artists": [
+  {
+   "name": "LANY",
+   "is_international": true,
+   "genres": [
+    "pop",
+    "indie pop"
+   ],
+   "affinity": "must_see",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Lauv",
+   "is_international": true,
+   "genres": [
+    "pop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Keane",
+   "is_international": true,
+   "genres": [
+    "britpop",
+    "piano rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Cigarettes After Sex",
+   "is_international": true,
+   "genres": [
+    "dream pop",
+    "ambient pop"
+   ],
+   "affinity": "must_see",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Bombay Bicycle Club",
+   "is_international": true,
+   "genres": [
+    "indie rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Glass Animals",
+   "is_international": true,
+   "genres": [
+    "indie pop",
+    "psychedelic pop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Jacob Collier",
+   "is_international": true,
+   "genres": [
+    "jazz",
+    "a cappella"
+   ],
+   "affinity": "must_see",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "The Lumineers",
+   "is_international": true,
+   "genres": [
+    "folk rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Mac DeMarco",
+   "is_international": true,
+   "genres": [
+    "indie rock",
+    "slacker rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Men I Trust",
+   "is_international": true,
+   "genres": [
+    "dream pop",
+    "indie pop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Tom Odell",
+   "is_international": true,
+   "genres": [
+    "singer-songwriter"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Two Door Cinema Club",
+   "is_international": true,
+   "genres": [
+    "indie rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Nothing But Thieves",
+   "is_international": true,
+   "genres": [
+    "alternative rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Bastille",
+   "is_international": true,
+   "genres": [
+    "indie pop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "The Script",
+   "is_international": true,
+   "genres": [
+    "pop rock"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "OneRepublic",
+   "is_international": true,
+   "genres": [
+    "pop rock"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Calum Scott",
+   "is_international": true,
+   "genres": [
+    "pop"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Sigur Rós",
+   "is_international": true,
+   "genres": [
+    "post-rock"
+   ],
+   "affinity": "like",
+   "aliases": [
+    "Sigur Ros"
+   ],
+   "blocks": []
+  },
+  {
+   "name": "Royal Blood",
+   "is_international": true,
+   "genres": [
+    "rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Polyphia",
+   "is_international": true,
+   "genres": [
+    "instrumental rock",
+    "math rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Hozier",
+   "is_international": true,
+   "genres": [
+    "indie folk",
+    "soul"
+   ],
+   "affinity": "must_see",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Joji",
+   "is_international": true,
+   "genres": [
+    "lo-fi",
+    "r&b"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Coldplay",
+   "is_international": true,
+   "genres": [
+    "pop rock"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Phoenix",
+   "is_international": true,
+   "genres": [
+    "indie pop",
+    "french rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": [
+    "phoenix marketcity",
+    "phoenix mall",
+    "phoenix palassio",
+    "phoenix citadel",
+    "phoenix palladium"
+   ]
+  },
+  {
+   "name": "Alan Walker",
+   "is_international": true,
+   "genres": [
+    "edm"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Prateek Kuhad",
+   "is_international": false,
+   "genres": [
+    "indian indie",
+    "singer-songwriter"
+   ],
+   "affinity": "must_see",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "The Local Train",
+   "is_international": false,
+   "genres": [
+    "hindi rock"
+   ],
+   "affinity": "must_see",
+   "aliases": [
+    "Local Train"
+   ],
+   "blocks": [
+    "train ride",
+    "local train ride",
+    "dabbawala",
+    "heritage walk",
+    "mumbai local"
+   ]
+  },
+  {
+   "name": "Seedhe Maut",
+   "is_international": false,
+   "genres": [
+    "desi hip hop"
+   ],
+   "affinity": "must_see",
+   "aliases": [
+    "सीधे मौत"
+   ],
+   "blocks": []
+  },
+  {
+   "name": "Ritviz",
+   "is_international": false,
+   "genres": [
+    "indian electronic"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Taba Chake",
+   "is_international": false,
+   "genres": [
+    "indie folk"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Anuv Jain",
+   "is_international": false,
+   "genres": [
+    "indian indie"
+   ],
+   "affinity": "must_see",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "When Chai Met Toast",
+   "is_international": false,
+   "genres": [
+    "indie folk"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Peter Cat Recording Co.",
+   "is_international": false,
+   "genres": [
+    "indie",
+    "jazz"
+   ],
+   "affinity": "like",
+   "aliases": [
+    "PCRC",
+    "Peter Cat Recording Co"
+   ],
+   "blocks": []
+  },
+  {
+   "name": "Parvaaz",
+   "is_international": false,
+   "genres": [
+    "psychedelic rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Thaikkudam Bridge",
+   "is_international": false,
+   "genres": [
+    "fusion",
+    "rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Raghu Dixit Project",
+   "is_international": false,
+   "genres": [
+    "folk rock"
+   ],
+   "affinity": "like",
+   "aliases": [
+    "Raghu Dixit"
+   ],
+   "blocks": []
+  },
+  {
+   "name": "Swarathma",
+   "is_international": false,
+   "genres": [
+    "folk rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Lifafa",
+   "is_international": false,
+   "genres": [
+    "indian electronic"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Nucleya",
+   "is_international": false,
+   "genres": [
+    "bass",
+    "electronic"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "DIVINE",
+   "is_international": false,
+   "genres": [
+    "desi hip hop"
+   ],
+   "affinity": "casual",
+   "aliases": [
+    "Divine"
+   ],
+   "blocks": [
+    "divine comedy",
+    "divine light",
+    "divine mercy",
+    "divine grace"
+   ]
+  },
+  {
+   "name": "Prabh Deep",
+   "is_international": false,
+   "genres": [
+    "desi hip hop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Lisa Mishra",
+   "is_international": false,
+   "genres": [
+    "pop"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Aswekeepsearching",
+   "is_international": false,
+   "genres": [
+    "post-rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "The Yellow Diary",
+   "is_international": false,
+   "genres": [
+    "indian indie rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Bloodywood",
+   "is_international": false,
+   "genres": [
+    "metal",
+    "folk metal"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Indian Ocean",
+   "is_international": false,
+   "genres": [
+    "fusion rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Agnee",
+   "is_international": false,
+   "genres": [
+    "rock"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Papon",
+   "is_international": false,
+   "genres": [
+    "folk",
+    "playback"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Hanumankind",
+   "is_international": false,
+   "genres": [
+    "hip hop"
+   ],
+   "affinity": "like",
+   "aliases": [
+    "Hanumaankind"
+   ],
+   "blocks": []
+  },
+  {
+   "name": "Kaam Bhaari",
+   "is_international": false,
+   "genres": [
+    "desi hip hop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Sanjeeta Bhattacharya",
+   "is_international": false,
+   "genres": [
+    "indie",
+    "jazz"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Dhruv Visvanath",
+   "is_international": false,
+   "genres": [
+    "acoustic",
+    "singer-songwriter"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Easy Wanderlings",
+   "is_international": false,
+   "genres": [
+    "indie pop"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Sid Sriram",
+   "is_international": false,
+   "genres": [
+    "carnatic",
+    "playback"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Komorebi",
+   "is_international": false,
+   "genres": [
+    "electronic"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Zaeden",
+   "is_international": false,
+   "genres": [
+    "pop"
+   ],
+   "affinity": "casual",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Karsh Kale",
+   "is_international": false,
+   "genres": [
+    "electronic",
+    "fusion"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Osho Jain",
+   "is_international": false,
+   "genres": [
+    "singer-songwriter"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  },
+  {
+   "name": "Mali",
+   "is_international": false,
+   "genres": [
+    "indie pop"
+   ],
+   "affinity": "like",
+   "aliases": [
+    "MALI"
+   ],
+   "blocks": [
+    "republic of mali",
+    "mali country"
+   ]
+  },
+  {
+   "name": "Gauley Bhai",
+   "is_international": false,
+   "genres": [
+    "electronic"
+   ],
+   "affinity": "like",
+   "aliases": [],
+   "blocks": []
+  }
+ ]
+}

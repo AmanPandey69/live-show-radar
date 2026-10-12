@@ -23,9 +23,9 @@ const COMMON_WORDS = new Set([
   "nothing", "low", "live", "local", "train", "japan", "yes", "love", "sun", "war", "hope", "home", "blue", "kites",
   "indian ocean", "eastern", "fire", "ocean", "space", "camp", "earth", "air", "magic", "freedom", "journey",
   "boston", "chicago", "america", "europe", "kansas", "smash", "bloom", "echo", "fever", "trees", "time", "maroon",
-  "dream", "dreams", "rain", "muse", "phoenix",
+  "dream", "dreams", "rain", "muse", "phoenix", "local train", "divine", "mali", "agnee", "komorebi",
 ]);
-const MUSIC_CONTEXT = /\b(concert|live|tour|gig|tickets?|show|perform(?:s|ing|ance)?|band|singer|rapper|dj|album|single|festival|line-?up|headlin\w*|on stage|india leg|setlist|music)\b/i;
+const MUSIC_CONTEXT = /\b(supported by|support act|opening act|concert|live|tour|gig|tickets?|show|perform(?:s|ing|ance)?|band|singer|rapper|dj|album|single|festival|line-?up|headlin\w*|on stage|india leg|setlist|music)\b/i;
 const TRIBUTE_RE = /\b(tribute|tributes|homage|covers? (?:band|night|show|set)|cover songs|covers night|songs of|music of|hits of|best of|celebrating|candlelight|karaoke|unplugged covers|orchestral rendition|reimagined by|ft\.? songs|night of)\b/i;
 const SUPPORT_RE = /\b(supported by|support(?:ing)? act|support:|opening act|opener|openers|opening for|special guests?|with guests?|also featuring|undercard)\b/i;
 
@@ -78,12 +78,12 @@ export class ArtistMatcher {
     this.entries.sort((a, b) => b.alias.length - a.alias.length);
   }
 
-  /** Cheap boolean used by pre-filters on slugs/titles. */
+  /** Cheap boolean used by pre-filters on slugs/titles (lenient: lowercase slugs allowed; strict check happens later). */
   anyMatch(text: string): boolean {
-    return this.match(text).some((m) => !m.blocked);
+    return this.match(text, { lenient: true }).some((m) => !m.blocked);
   }
 
-  match(rawText: string): ArtistMatch[] {
+  match(rawText: string, opts: { lenient?: boolean } = {}): ArtistMatch[] {
     const text = stripDiacritics(rawText);
     const found = new Map<string, ArtistMatch>();
     const taken: [number, number][] = [];
@@ -99,7 +99,7 @@ export class ArtistMatcher {
         let needs_resolution = false;
         if (e.common) {
           const capitalised = /\p{Lu}/u.test(m[0]);
-          if (!capitalised || !MUSIC_CONTEXT.test(window)) continue; // everyday word, not the artist
+          if ((!capitalised && !opts.lenient) || !MUSIC_CONTEXT.test(window)) continue; // everyday word, not the artist
           needs_resolution = true;
         }
         const blocked = this.blockFor(e.artist_id, e.alias, window, text, start, end);

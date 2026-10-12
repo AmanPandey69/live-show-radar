@@ -22,7 +22,8 @@ const m = new ArtistMatcher({ artists, aliases, blocks: [{ artist_id: "a9", patt
 describe("alias matching", () => {
   it("matches with and without 'The', hyphens and case", () => {
     expect(m.match("Local Train live in Bengaluru").map((x) => x.artist_id)).toEqual(["a1"]);
-    expect(m.match("the-local-train-bengaluru-2026").map((x) => x.artist_id)).toEqual(["a1"]);
+    expect(m.anyMatch("the-local-train-bengaluru-2026-buy-tickets")).toBe(true); // lenient slug prefilter
+    expect(m.match("Meet the Dabbawalas and take a Mumbai Local Train Ride")).toHaveLength(0); // no music context → not the band
     expect(m.match("SEEDHE MAUT India tour").map((x) => x.artist_id)).toEqual(["a5"]);
   });
   it("matches diacritics-insensitive and transliterated aliases", () => {

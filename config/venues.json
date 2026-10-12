@@ -1,0 +1,113 @@
+{
+ "_note": "Approximate capacities: rough estimates, always shown as approximate.",
+ "venues": [
+  {
+   "name": "Bangalore International Centre",
+   "aliases": [
+    "BIC"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 200,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Windmills Craftworks",
+   "aliases": [
+    "Windmills"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 250,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Hard Rock Cafe St. Marks Road",
+   "aliases": [
+    "Hard Rock Cafe Bengaluru"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 400,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Fandom at Gilly's Redefined",
+   "aliases": [
+    "Fandom",
+    "Gilly's Redefined"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 500,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Phoenix Marketcity",
+   "aliases": [
+    "Phoenix Marketcity Whitefield"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 3000,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Jayamahal Palace",
+   "aliases": [
+    "Jayamahal Palace Hotel Grounds"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 5000,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Palace Grounds",
+   "aliases": [
+    "Bangalore Palace Grounds",
+    "Bengaluru Palace Grounds"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 20000,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "NICE Grounds",
+   "aliases": [
+    "Bhartiya City NICE Grounds"
+   ],
+   "city": "Bengaluru",
+   "capacity_approx": 30000,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "antiSOCIAL",
+   "aliases": [
+    "antiSOCIAL Mumbai"
+   ],
+   "city": "Mumbai",
+   "capacity_approx": 400,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "NSCI Dome",
+   "aliases": [
+    "NSCI SVP Stadium Dome"
+   ],
+   "city": "Mumbai",
+   "capacity_approx": 8000,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "Hard Rock Cafe Hyderabad",
+   "aliases": [],
+   "city": "Hyderabad",
+   "capacity_approx": 400,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  },
+  {
+   "name": "The Piano Man Jazz Club",
+   "aliases": [
+    "Piano Man"
+   ],
+   "city": "Delhi NCR",
+   "capacity_approx": 150,
+   "capacity_source": "rough estimate, unverified (approximate)"
+  }
+ ]
+}
