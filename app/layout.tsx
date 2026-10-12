@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Syne } from "next/font/google";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
+import { NotificationBell } from "@/components/NotificationBell";
 import "./globals.css";
 
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
@@ -24,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Logo />
               <span className="display font-bold text-[18px] tracking-tight">Live Show <span className="grad-text">Radar</span></span>
             </Link>
-            <div className="min-w-0 flex-1 flex justify-end"><Nav /></div>
+            <div className="min-w-0 flex-1 flex justify-end items-center gap-2"><Nav /><NotificationBell /></div>
           </div>
         </header>
         <main className="max-w-6xl mx-auto px-4 pt-8 pb-8">{children}</main>

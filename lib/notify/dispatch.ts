@@ -24,8 +24,14 @@ export async function deliver(
   ch: Channels,
   alert: Alert,
   rendered: RenderedAlert,
-  opts: { settings: Settings; now: Date; urgency: number; allowDemoSend?: boolean; icsUrl: string | null },
-): Promise<"sent" | "held" | "mock" | "failed"> {
+  opts: { settings: Settings; now: Date; urgency: number; allowDemoSend?: boolean; icsUrl: string | null; inAppOnly?: boolean },
+): Promise<"sent" | "held" | "mock" | "failed" | "inapp"> {
+  // Only "a new show was announced" is emailed. Every other update lives in the in-app notification bell.
+  if (opts.inAppOnly) {
+    await repo.addDelivery({ alert_id: alert.id, channel: "inapp", status: "sent", attempt: 1, error: null, external_id: null } as never);
+    await repo.updateAlert(alert.id, { sent_at: opts.now.toISOString() });
+    return "inapp";
+  }
   if (alert.priority === "P2" && inQuietHours(opts.settings, opts.now)) {
     await repo.updateAlert(alert.id, { held_for_quiet: true });
     await repo.addDelivery({ alert_id: alert.id, channel: "inapp", status: "skipped", attempt: 1, error: "held for quiet hours", external_id: null, created_at: opts.now.toISOString() } as never);

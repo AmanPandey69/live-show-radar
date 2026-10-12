@@ -23,6 +23,7 @@ Karan follows ~60 artists and kept missing shows, because early-bird tickets sel
 | Output | Email alert (Resend), .ics calendar, dashboard, daily digest, health page | "Even 'no news' is reported daily, so silence means checked, not broken." |
 
 ## Likely questions, short answers
+- **Why not email every update?** Karan only needs the announcement in his inbox. One email per new show, with early-bird status and any deadline inside it. Every follow-up update goes to the 🔔 bell on the site, so the inbox never gets noisy.
 - **How do you stop hallucinated early-bird info?** Every field carries a verbatim quote. Code checks the quote exists in the page *and* contains that date, time or price. If not, the field becomes "not stated". A second Gemini call can also veto fields.
 - **Real example of a trap you handled?** District lists a closing time on every ticket tier that equals the show start time. That is not an early-bird deadline, so we ignore it. There's a test for it.
 - **Tribute acts and same-name artists?** Word-boundary matching, a tribute/cover/"Candlelight" filter, per-artist blocks ("Phoenix Marketcity" is not the band Phoenix), and a Gemini identity check when unsure. "Wrong artist" feedback adds a block.

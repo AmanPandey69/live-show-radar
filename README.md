@@ -18,7 +18,7 @@ Live Show Radar sends concert and early-bird alerts for the ~60 artists Karan fo
    - **P0** = Bengaluru AND (early-bird OR must-see).
    - **P1** = other-city early-bird, or any Bengaluru show.
    - **P2** = everything else; only P2 respects quiet hours.
-6. **Delivers alerts by email.** Email via Resend (artist, venue, IST date, ticket-status line, ticket link, sources, detection latency, "why it matters", .ics link), reminders at T-24h/T-1h/T-10m, `.ics` files, a daily digest, an in-app alert log, and the trust dashboard.
+6. **Notifies without noise.** Exactly **one email per newly announced show** (Resend), carrying artist, venue, IST date, early-bird status with any deadline flagged, ticket link and sources. Every later update (early-bird opened/closing, date or venue change, cancellation, reminders, daily "what we checked") goes to the in-app 🔔 notification bell instead of the inbox. The event page also offers an `.ics` download.
 
 ## Setup
 ```bash

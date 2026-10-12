@@ -208,6 +208,7 @@ export class Engine {
     for (const x of created.slice(1)) await this.repo.updateAlert(x.a.id, { payload: { summary: x.f.summary, bundled_into: lead.id }, sent_at: this.now().toISOString() });
     const status = await deliver(this.repo, this.channels, { ...lead, type }, rendered, {
       settings: this.settings, now: this.now(), urgency: e.urgency, allowDemoSend: opts.allowDemoSend, icsUrl: `${this.opts.appBaseUrl}/api/event/${e.id}/ics`,
+      inAppOnly: type !== "NEW_SHOW",
     });
     this.stats.alerts += created.length;
     this.log(`alert ${type} (${status}) ${rendered.title}`);
@@ -279,7 +280,7 @@ export class Engine {
       await this.repo.markReminderSent(r.id, this.now().toISOString());
       if (!alert) continue;
       const rendered = await this.render(e, "REMINDER", [what], tiers, false);
-      await deliver(this.repo, this.channels, alert, rendered, { settings: this.settings, now: this.now(), urgency: 100, icsUrl: `${this.opts.appBaseUrl}/api/event/${e.id}/ics` });
+      await deliver(this.repo, this.channels, alert, rendered, { settings: this.settings, now: this.now(), urgency: 100, icsUrl: `${this.opts.appBaseUrl}/api/event/${e.id}/ics`, inAppOnly: true });
       n++;
     }
     return n;
@@ -298,7 +299,7 @@ export class Engine {
     });
     for (const h of held) await this.repo.updateAlert(h.id, { sent_at: this.now().toISOString() });
     if (!digest) return 0;
-    const title = `Overnight: ${held.length} lower-priority update(s)`;
+    const title = `Overnight: ${held.length} new show(s) announced`;
     await deliver(this.repo, this.channels, { ...digest, priority: "P1" }, { title, lines, html: `<b>${title}</b>\n${lines.join("\n")}`, text: `${title}\n${lines.join("\n")}`, ticketUrl: null, eventUrl: `${this.opts.appBaseUrl}/alerts`, unconfirmed: false },
       { settings: this.settings, now: this.now(), urgency: 0, icsUrl: null });
     return held.length;

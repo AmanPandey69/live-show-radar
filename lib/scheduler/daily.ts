@@ -38,7 +38,7 @@ export async function runDaily(repo: Repo) {
     const title = "Live Show Radar: daily digest";
     out.digest = await deliver(repo, engine.channels, { ...alert, priority: "P1" }, {
       title, lines, html: `<b>${title}</b>\n${lines.join("\n")}`, text: `${title}\n${lines.join("\n")}`, ticketUrl: null, eventUrl: `${engine.opts.appBaseUrl}/health`, unconfirmed: false,
-    }, { settings: engine.settings, now: new Date(), urgency: 0, icsUrl: null });
+    }, { settings: engine.settings, now: new Date(), urgency: 0, icsUrl: null, inAppOnly: true });
   }
   out.pruned = await repo.prune(new Date(Date.now() - 30 * 86_400_000).toISOString());
   await repo.setKv("heartbeat", { at: new Date().toISOString(), lane: "daily" });
