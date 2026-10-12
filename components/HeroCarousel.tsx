@@ -56,7 +56,7 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
             <div className="min-w-0 flex-1">
               <div className="text-xs uppercase tracking-[.14em] text-[#f0abfc] font-semibold">Now featuring · {s.when}</div>
               <div className="display text-2xl font-bold truncate mt-1">{s.artist}</div>
-              <div className="text-sm muted truncate">{s.venue} · {s.city}</div>
+              <div className="text-sm muted truncate">{s.venue.toLowerCase().includes(s.city.toLowerCase()) ? s.venue : `${s.venue} · ${s.city}`}</div>
               <div className="text-sm mt-1.5 font-semibold">{s.status}</div>
             </div>
             <Link href={`/event/${s.id}`} className="btn btn-primary shrink-0">View show →</Link>
