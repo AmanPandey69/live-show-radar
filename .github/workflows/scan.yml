@@ -1,0 +1,32 @@
+name: Radar scans
+# GitHub scheduled workflows are best-effort: they can be delayed (often 5-30 min at busy times, worst at :00)
+# and are auto-disabled after 60 days without repo activity on public repos. Use cron-job.org / QStash as redundancy
+# (see README → Scheduling). Minutes are offset from :00 on purpose.
+on:
+  schedule:
+    - cron: "2-59/5 * * * *"   # fast lane every 5 min
+    - cron: "11,41 * * * *"    # deep lane every 30 min
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: "fast or deep"
+        default: fast
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Trigger lane
+        env:
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          LANE="${{ github.event.inputs.lane }}"
+          if [ -z "$LANE" ]; then
+            if [ "${{ github.event.schedule }}" = "11,41 * * * *" ]; then LANE=deep; else LANE=fast; fi
+          fi
+          echo "lane=$LANE"
+          curl -sS -f -m 300 -X POST "$APP_BASE_URL/api/cron/scan?lane=$LANE" \
+            -H "Authorization: Bearer $CRON_SECRET" -o out.json -w "HTTP %{http_code}\n"
+          head -c 1500 out.json
