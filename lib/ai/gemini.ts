@@ -86,14 +86,31 @@ export function openRouterTransport(apiKey: string): Transport {
       provider: { only: ["google-vertex", "google-ai-studio"], allow_fallbacks: false, require_parameters: true },
       usage: { include: true },
     };
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json", "x-title": "Live Show Radar" },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(90_000),
-    });
-    const j = (await res.json().catch(() => ({}))) as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
-    if (!res.ok || j.error) throw new HttpStatusError(res.status === 200 ? Number(j.error?.code) || 500 : res.status, String(j.error?.message ?? `HTTP ${res.status}`));
+    const post = async (b: Record<string, unknown>) => {
+      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json", "x-title": "Live Show Radar" },
+        body: JSON.stringify(b),
+        signal: AbortSignal.timeout(90_000),
+      });
+      const j = (await res.json().catch(() => ({}))) as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+      return { res, j };
+    };
+    let { res, j } = await post(body);
+    // Google can reject large/nested JSON schemas ("Provider returned error"). Retry once in JSON mode with the
+    // schema in the prompt; the response is still zod-validated by the caller, so nothing is loosened.
+    if ((!res.ok || j.error) && res.status !== 429 && Number(j.error?.code) !== 429 && res.status < 500) {
+      const fallback = {
+        ...body,
+        response_format: { type: "json_object" },
+        messages: [
+          { role: "system", content: `${req.system_instruction}\n\nReturn ONLY a JSON object matching this JSON Schema:\n${JSON.stringify(req.response_format.schema)}` },
+          body.messages[1],
+        ],
+      };
+      ({ res, j } = await post(fallback));
+    }
+    if (!res.ok || j.error) throw new HttpStatusError(res.status === 200 ? Number(j.error?.code) || 500 : res.status, `${String(j.error?.message ?? `HTTP ${res.status}`)}${j.error?.metadata?.raw ? `: ${String(j.error.metadata.raw).slice(0, 200)}` : ""}`);
     const msg = j.choices?.[0]?.message ?? {};
     const text = typeof msg.content === "string" ? msg.content : "";
     const annotations = ((msg.annotations ?? []) as Record<string, any>[]) // eslint-disable-line @typescript-eslint/no-explicit-any
