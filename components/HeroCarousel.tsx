@@ -22,7 +22,7 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
 
   return (
     <section
-      className="relative overflow-hidden rounded-[32px] border border-white/10 min-h-[560px] sm:min-h-[620px] flex flex-col justify-end"
+      className="relative overflow-hidden rounded-[32px] border border-white/10 min-h-[440px] flex flex-col justify-end"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -40,31 +40,35 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
       <div className="absolute inset-0 mix-blend-color bg-gradient-to-br from-[#6d28d9]/45 via-transparent to-[#db2777]/40" />
       <div className="hero-word">LIVE</div>
 
-      <div className="relative z-10 p-6 sm:p-10">
+      <div className="relative z-10 p-6 sm:p-9">
         <div className="flex flex-wrap gap-2 mb-5">
           <span className="chip"><span className="radar-dot mr-1" /> Scanning live</span>
           {s?.sample && <span className="chip chip-demo">Sample</span>}
           {s?.hot && <span className="chip chip-dark">Early-bird open</span>}
         </div>
-        <div className="text-[11px] uppercase tracking-[.18em] font-semibold inline-block px-3 py-1 rounded-full bg-[#a855f7]/25 border border-[#c084fc]/40 text-[#f5d0fe] mb-4">India tour radar · Bengaluru first</div>
-        <h1 className="text-[44px] sm:text-[76px] font-extrabold leading-[.95] max-w-4xl">
-          Never miss a show <span className="grad-text">again.</span>
-        </h1>
-        {s?.target && <div key={`cd-${s.id}`} className="reveal mt-6"><BigCountdown at={s.target} label={s.targetLabel} /></div>}
-        {s && (
-          <div key={s.id} className="reveal mt-6 glass rounded-2xl p-4 sm:p-5 max-w-xl flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="min-w-0 flex-1">
-              <div className="text-xs uppercase tracking-[.14em] text-[#f0abfc] font-semibold">Now featuring · {s.when}</div>
-              <div className="display text-2xl font-bold truncate mt-1">{s.artist}</div>
-              <div className="text-sm muted truncate">{s.venue.toLowerCase().includes(s.city.toLowerCase()) ? s.venue : `${s.venue} · ${s.city}`}</div>
-              <div className="text-sm mt-1.5 font-semibold">{s.status}</div>
-            </div>
-            <Link href={`/event/${s.id}`} className="btn btn-primary shrink-0">View show →</Link>
+        <div className="grid lg:grid-cols-[1.25fr_1fr] gap-6 items-end">
+          <div>
+            <div className="text-[11px] uppercase tracking-[.18em] font-semibold inline-block px-3 py-1 rounded-full bg-[#a855f7]/25 border border-[#c084fc]/40 text-[#f5d0fe] mb-4">India tour radar · Bengaluru first</div>
+            <h1 className="text-[40px] sm:text-[64px] font-extrabold leading-[.95]">
+              Never miss a show <span className="grad-text">again.</span>
+            </h1>
+            {s?.target && <div key={`cd-${s.id}`} className="reveal mt-5"><BigCountdown at={s.target} label={s.targetLabel} /></div>}
           </div>
-        )}
-        <div className="mt-8">{stats}</div>
+          {s && (
+            <div key={s.id} className="reveal glass rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
+              <div className="min-w-0">
+                <div className="text-xs uppercase tracking-[.14em] text-[#f0abfc] font-semibold">Now featuring · {s.when}</div>
+                <div className="display text-2xl font-bold truncate mt-1">{s.artist}</div>
+                <div className="text-sm muted truncate">{s.venue.toLowerCase().includes(s.city.toLowerCase()) ? s.venue : `${s.venue} · ${s.city}`}</div>
+                <div className="text-sm mt-1.5 font-semibold">{s.status}</div>
+              </div>
+              <Link href={`/event/${s.id}`} className="btn btn-primary">View show →</Link>
+            </div>
+          )}
+        </div>
+        <div className="mt-6">{stats}</div>
         {n > 1 && (
-          <div className="flex items-center gap-3 mt-6">
+          <div className="flex items-center gap-3 mt-5">
             <button aria-label="Previous" onClick={() => setI((i - 1 + n) % n)} className="btn !p-0 w-10 h-10">‹</button>
             <div className="flex gap-1.5">
               {slides.map((sl, k) => (
