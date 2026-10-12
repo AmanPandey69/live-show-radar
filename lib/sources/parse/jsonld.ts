@@ -91,7 +91,9 @@ function offerTiers(offers: unknown, eventStartIso: string | null, now: Date): T
     const endsIso = safeIso(ends);
     let sale_end_date: string | null = null;
     let sale_end_time: string | null = null;
-    if (endsIso && (!eventStartIso || Math.abs(Date.parse(endsIso) - Date.parse(eventStartIso)) > 3 * 3_600_000) && Date.parse(endsIso) > now.getTime()) {
+    // A sale end counts as a tier deadline only if it is clearly BEFORE the show starts (≥3h). District sets
+    // availabilityEnds to the show start or end on every tier; that is not an early-bird deadline.
+    if (endsIso && (!eventStartIso || Date.parse(endsIso) < Date.parse(eventStartIso) - 3 * 3_600_000) && Date.parse(endsIso) > now.getTime()) {
       sale_end_date = utcToIstDate(endsIso);
       sale_end_time = utcToIstTime(endsIso);
     }

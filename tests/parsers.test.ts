@@ -30,6 +30,12 @@ describe("District JSON-LD (real snapshot)", () => {
   it("does NOT treat availabilityEnds = show start as an early-bird deadline", () => {
     expect(c.tiers.every((t) => t.sale_end_date === null)).toBe(true);
   });
+  it("does NOT treat an availabilityEnds AFTER the show start as a deadline either", () => {
+    const ev2 = structuredClone(ev) as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    for (const o of ev2.offers.offers) o.availabilityEnds = "2026-11-15T15:30:00.000Z"; // day after the show
+    const c2 = jsonLdToCandidate(ev2, "https://x.test", NOW)!;
+    expect(c2.tiers.every((t) => t.sale_end_date === null)).toBe(true);
+  });
   it("survives the truthfulness gate unchanged", () => {
     const text = JSON.stringify(ev);
     const { candidate, report } = enforceTruth(c, text);

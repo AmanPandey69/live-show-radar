@@ -2,7 +2,7 @@ import type { Candidate, ObservationInput } from "@/lib/domain/schemas";
 import { sha256 } from "@/lib/text/normalize";
 
 /** Bump when parsing/extraction logic changes: previously seen pages are re-processed once (alerts stay deduped). */
-export const PIPELINE_VERSION = "2026-10-12.2";
+export const PIPELINE_VERSION = "2026-10-12.3";
 
 export function obs(p: {
   source_id: string;

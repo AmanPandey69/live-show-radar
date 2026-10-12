@@ -50,8 +50,9 @@ export async function loadRadar(filters: { city?: string; artist?: string } = {}
 
 export function latencyStats(alerts: Alert[]) {
   const mins = alerts
-    .filter((a) => a.sent_at && (a.first_public_at || a.first_seen_at) && !a.is_demo && a.type !== "REMINDER" && a.type !== "DIGEST")
-    .map((a) => (Date.parse(a.sent_at!) - Date.parse(a.first_public_at ?? a.first_seen_at!)) / 60000)
+    // Only alerts whose source states a publish time: latency from our own first sighting would read as a fake "0 min".
+    .filter((a) => a.sent_at && a.first_public_at && !a.is_demo && a.type !== "REMINDER" && a.type !== "DIGEST")
+    .map((a) => (Date.parse(a.sent_at!) - Date.parse(a.first_public_at!)) / 60000)
     .filter((m) => m >= 0)
     .sort((a, b) => a - b);
   const pct = (p: number) => (mins.length ? mins[Math.min(mins.length - 1, Math.floor(p * mins.length))] : null);
