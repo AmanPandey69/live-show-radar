@@ -48,7 +48,6 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
         </div>
         <div className="grid lg:grid-cols-[1.25fr_1fr] gap-6 items-end">
           <div>
-            <div className="text-[11px] uppercase tracking-[.18em] font-semibold inline-block px-3 py-1 rounded-full bg-[#a855f7]/25 border border-[#c084fc]/40 text-[#f5d0fe] mb-4">India tour radar · Bengaluru first</div>
             <h1 className="text-[40px] sm:text-[64px] font-extrabold leading-[.95]">
               Never miss a show <span className="grad-text">again.</span>
             </h1>

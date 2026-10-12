@@ -18,8 +18,8 @@ export default async function RadarPage() {
   const hb = await getRepo().getKv<{ at: string; lane: string }>("heartbeat");
   const real = views.filter((v) => !v.event.is_demo);
 
-  // Hero: real shows with artwork first, hot ones first.
-  const heroPool = [...real].sort((a, b) => Number(!!b.event.image_url) - Number(!!a.event.image_url) || Number(ticketTone(b.statusLine) === "hot") - Number(ticketTone(a.statusLine) === "hot") || b.event.urgency - a.event.urgency).slice(0, 6);
+  // Bengaluru shows first, then shows with artwork, then early-bird-open ones.
+  const heroPool = [...real].sort((a, b) => Number(b.isHome) - Number(a.isHome) || Number(!!b.event.image_url) - Number(!!a.event.image_url) || Number(ticketTone(b.statusLine) === "hot") - Number(ticketTone(a.statusLine) === "hot") || b.event.urgency - a.event.urgency).slice(0, 6);
   const slides: Slide[] = heroPool.map((v) => ({
     id: v.event.id, image: v.event.image_url, artist: nameOf(v), city: v.event.city, venue: v.event.venue_name_raw ?? "Venue TBA",
     when: v.event.start_at ? formatIst(v.event.start_at) : v.event.start_date_local ? formatIstDate(v.event.start_date_local) : "Date TBA",
