@@ -3,7 +3,7 @@
 Live Show Radar sends concert and early-bird alerts for the ~60 artists Karan follows. It covers all of India, with Bengaluru first.
 
 - **Live:** https://liveshowradar-blr.vercel.app (public, read-only)
-- **Components Map:** [`docs/components-map.md`](docs/components-map.md), also served at [/components-map](https://liveshowradar-blr.vercel.app/components-map)
+- **Components Map:** [`docs/components-map.md`](docs/components-map.md) (diagram image: [`docs/components-map.svg`](docs/components-map.svg))
 - **Automation brief:** [`docs/automation-brief.md`](docs/automation-brief.md)
 - **Source verification log:** [`docs/SOURCES.md`](docs/SOURCES.md)
 

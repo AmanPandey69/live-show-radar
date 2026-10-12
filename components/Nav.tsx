@@ -8,7 +8,6 @@ const NAV = [
   ["/artists", "Artists"],
   ["/whispers", "Whispers"],
   ["/health", "Health"],
-  ["/components-map", "Map"],
   ["/settings", "Settings"],
 ] as const;
 

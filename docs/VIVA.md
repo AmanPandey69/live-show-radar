@@ -42,5 +42,5 @@ Karan follows ~60 artists and kept missing shows, because early-bird tickets sel
 2. Click a show: quoted evidence per tier, sources, travel card for other cities, **.ics** download.
 3. **Health** page: sources ok/blocked, Gemini budget, latency, scan runs.
 4. **Settings** (admin) → **Simulate announcement** → the [DEMO] alert arrives on Telegram with buttons.
-5. **Components Map** page: walk the diagram left → right.
+5. **Components Map** (`docs/components-map.svg`): walk the diagram top to bottom.
 6. GitHub: show `tests/` and that CI fails if any non-Gemini AI SDK appears.
