@@ -1,6 +1,9 @@
 import type { Candidate, ObservationInput } from "@/lib/domain/schemas";
 import { sha256 } from "@/lib/text/normalize";
 
+/** Bump when parsing/extraction logic changes: previously seen pages are re-processed once (alerts stay deduped). */
+export const PIPELINE_VERSION = "2026-10-12.2";
+
 export function obs(p: {
   source_id: string;
   url: string;
@@ -18,7 +21,7 @@ export function obs(p: {
     url: p.url,
     fetched_at: p.now.toISOString(),
     published_at: p.published_at ?? null,
-    content_hash: sha256(`${p.text}|${p.hashExtra ?? ""}`),
+    content_hash: sha256(`${PIPELINE_VERSION}|${p.text}|${p.hashExtra ?? ""}`),
     title: p.title ?? null,
     text: p.text,
     snippet: p.snippet ?? (p.text.length > 280 ? `${p.text.slice(0, 280)}…` : p.text),

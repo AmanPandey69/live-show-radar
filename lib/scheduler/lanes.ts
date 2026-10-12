@@ -13,6 +13,9 @@ import { bingNewsAdapter, googleNewsAdapter } from "@/lib/sources/adapters/news"
 import { makeScoutAdapter } from "@/lib/sources/adapters/scout";
 import { skillboxAdapter } from "@/lib/sources/adapters/skillbox";
 import { STATIC_SOURCES } from "@/lib/sources/registry";
+import { PIPELINE_VERSION } from "@/lib/sources/adapters/common";
+import { DISTRICT_INDEX } from "@/lib/sources/adapters/district";
+import { SKILLBOX_SITEMAP } from "@/lib/sources/adapters/skillbox";
 import type { Lane, SourceAdapter } from "@/lib/sources/types";
 
 export interface LaneResult {
@@ -87,6 +90,15 @@ export async function runLane(repo: Repo, lane: Lane, opts: { budgetMs?: number;
   const stats: Record<string, unknown> = {};
   try {
     for (const s of STATIC_SOURCES) await repo.upsertSource(s);
+    if ((await repo.getKv<string>("pipeline:version")) !== PIPELINE_VERSION) {
+      // New parsing logic: forget sitemap cursors and ETags so every matching page is re-read once.
+      for (const k of ["district:matched", "skillbox:matched"]) await repo.setKv(k, {});
+      for (const u of [DISTRICT_INDEX, "https://cdn.district.in/sitemap/event-detail-pages.xml", SKILLBOX_SITEMAP]) {
+        await repo.setHttpCache({ url: u, etag: null, last_modified: null, content_hash: null, fetched_at: new Date().toISOString() });
+      }
+      await repo.setKv("pipeline:version", PIPELINE_VERSION);
+      say(`pipeline version → ${PIPELINE_VERSION}: re-reading sources`);
+    }
     const engine = opts.engine ?? (await makeEngine(repo, { log: say, channels: opts.channels }));
     const http = opts.http ?? new PoliteHttp(repo);
     const settings = engine.settings;
