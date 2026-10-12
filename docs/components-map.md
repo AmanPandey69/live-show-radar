@@ -2,9 +2,9 @@
 
 **In one line:** schedulers wake the app → it reads ticket and news sites for Karan's Spotify artists → Gemini Flash pulls out the show details → rules check the facts and remove duplicates → Telegram/email alert Karan once per new fact.
 
-Colors: grey = person, purple = outside service, green = our app on Vercel. Image version: [`components-map.svg`](components-map.svg).
+![Live Show Radar components map](components-map.png)
 
-![Components map](components-map.svg)
+Rows are the actors (Karan, Sources, System, AI Model, Services); columns are Trigger → Input → Context → Processing → AI → Output. Vector version: [`components-map.svg`](components-map.svg).
 
 | Layer | What it is | Example |
 |---|---|---|
