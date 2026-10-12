@@ -51,7 +51,7 @@ export function resetEnv() {
 }
 
 export const isMock = () => env().MOCK_MODE;
-export const hasDb = () => !isMock() && !!env().DATABASE_URL;
+export const hasDb = () => !isMock() && !!env().DATABASE_URL && !env().DATABASE_URL!.includes("[SENSITIVE]");
 export const hasGemini = () => !isMock() && (!!env().OPENROUTER_API_KEY || !!env().GEMINI_API_KEY);
 export const hasTelegram = () => !isMock() && !!env().TELEGRAM_BOT_TOKEN && !!env().TELEGRAM_CHAT_ID;
 export const hasEmail = () => !isMock() && !!env().RESEND_API_KEY && !!env().FROM_EMAIL && !!env().ALERT_EMAIL;

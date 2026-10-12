@@ -5,7 +5,11 @@ import { loadEnvFile } from "./load-env";
 
 loadEnvFile();
 const url = process.env.DATABASE_URL;
-if (!url) {
+if (!url || url.includes("[SENSITIVE]")) {
+  if (process.argv.includes("--if-db")) {
+    console.log("migrate: no DATABASE_URL here, skipping");
+    process.exit(0);
+  }
   console.error("DATABASE_URL is not set (put it in .env.local or run `npx vercel env pull .env.local`).");
   process.exit(1);
 }
