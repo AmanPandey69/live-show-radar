@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1077" viewBox="0 0 2000 1077" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1285" viewBox="0 0 2000 1285" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
 <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1f2a44"/></marker></defs>
-<rect width="2000" height="1077" fill="#ffffff"/>
-<text x="1000.0" y="62" text-anchor="middle" font-size="38" font-weight="700" fill="#1f2a44">Live Show Radar · Concert Alerts — Components Map</text>
+<rect width="2000" height="1285" fill="#ffffff"/>
+<text x="1000.0" y="62" text-anchor="middle" font-size="38" font-weight="700" fill="#1f2a44">Live Show Radar · Concert Alerts for Karan — Components Map</text>
 <rect x="24" y="95" width="1952" height="80" rx="10" fill="#1f2a44"/>
 <text x="141.5" y="139" text-anchor="middle" font-size="24" fill="#fff">Actor</text>
 <text x="402.08333333333337" y="139" text-anchor="middle" font-size="24" fill="#fff">Trigger</text>
@@ -10,92 +10,105 @@
 <text x="1260.5833333333333" y="139" text-anchor="middle" font-size="24" fill="#fff">Processing</text>
 <text x="1546.75" y="139" text-anchor="middle" font-size="24" fill="#fff">AI</text>
 <text x="1832.9166666666667" y="139" text-anchor="middle" font-size="24" fill="#fff">Output</text>
-<line x1="259.0" y1="95" x2="259.0" y2="165" stroke="#34405e"/>
-<line x1="545.1666666666667" y1="95" x2="545.1666666666667" y2="165" stroke="#34405e"/>
-<line x1="831.3333333333334" y1="95" x2="831.3333333333334" y2="165" stroke="#34405e"/>
-<line x1="1117.5" y1="95" x2="1117.5" y2="165" stroke="#34405e"/>
-<line x1="1403.6666666666667" y1="95" x2="1403.6666666666667" y2="165" stroke="#34405e"/>
-<line x1="1689.8333333333335" y1="95" x2="1689.8333333333335" y2="165" stroke="#34405e"/>
-<rect x="259" y="165" width="1717" height="147" fill="#eef0fd"/>
-<rect x="24" y="165" width="235" height="147" fill="#1f2a44"/>
+<rect x="259" y="165" width="1717" height="150" fill="#eef0fd"/>
+<rect x="24" y="165" width="235" height="150" fill="#1f2a44"/>
 <line x1="24" y1="165" x2="259" y2="165" stroke="#34405e"/>
-<text x="141.5" y="226.5" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Karan</text>
-<text x="141.5" y="258.5" text-anchor="middle" font-size="18" fill="#c9d0e0">(Fan, Spotify user)</text>
-<rect x="259" y="312" width="1717" height="147" fill="#fdf0eb"/>
-<rect x="24" y="312" width="235" height="147" fill="#1f2a44"/>
-<line x1="24" y1="312" x2="259" y2="312" stroke="#34405e"/>
-<text x="141.5" y="363.5" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Sources</text>
-<text x="141.5" y="395.5" text-anchor="middle" font-size="18" fill="#c9d0e0">(District, SkillBox,</text>
-<text x="141.5" y="419.5" text-anchor="middle" font-size="18" fill="#c9d0e0">allevents, news)</text>
-<rect x="259" y="459" width="1717" height="147" fill="#fdf8e6"/>
-<rect x="24" y="459" width="235" height="147" fill="#1f2a44"/>
-<line x1="24" y1="459" x2="259" y2="459" stroke="#34405e"/>
-<text x="141.5" y="510.5" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">System</text>
-<text x="141.5" y="542.5" text-anchor="middle" font-size="18" fill="#c9d0e0">(Radar backend</text>
-<text x="141.5" y="566.5" text-anchor="middle" font-size="18" fill="#c9d0e0">on Vercel)</text>
-<rect x="259" y="606" width="1717" height="147" fill="#e8f7ee"/>
-<rect x="24" y="606" width="235" height="147" fill="#1f2a44"/>
-<line x1="24" y1="606" x2="259" y2="606" stroke="#34405e"/>
-<text x="141.5" y="667.5" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">AI Model</text>
-<text x="141.5" y="699.5" text-anchor="middle" font-size="18" fill="#c9d0e0">(Gemini Flash)</text>
-<rect x="259" y="753" width="1717" height="147" fill="#fcebf1"/>
-<rect x="24" y="753" width="235" height="147" fill="#1f2a44"/>
-<line x1="24" y1="753" x2="259" y2="753" stroke="#34405e"/>
-<text x="141.5" y="804.5" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Services</text>
-<text x="141.5" y="836.5" text-anchor="middle" font-size="18" fill="#c9d0e0">(Resend email,</text>
-<text x="141.5" y="860.5" text-anchor="middle" font-size="18" fill="#c9d0e0">Neon database)</text>
-<rect x="259" y="900" width="1717" height="147" fill="#eaf1fc"/>
-<rect x="24" y="900" width="235" height="147" fill="#1f2a44"/>
-<line x1="24" y1="900" x2="259" y2="900" stroke="#34405e"/>
-<text x="141.5" y="961.5" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Karan</text>
-<text x="141.5" y="993.5" text-anchor="middle" font-size="18" fill="#c9d0e0">(Gets the alert)</text>
-<line x1="545.1666666666667" y1="165" x2="545.1666666666667" y2="1047" stroke="#d9dde6"/>
-<line x1="831.3333333333334" y1="165" x2="831.3333333333334" y2="1047" stroke="#d9dde6"/>
-<line x1="1117.5" y1="165" x2="1117.5" y2="1047" stroke="#d9dde6"/>
-<line x1="1403.6666666666667" y1="165" x2="1403.6666666666667" y2="1047" stroke="#d9dde6"/>
-<line x1="1689.8333333333335" y1="165" x2="1689.8333333333335" y2="1047" stroke="#d9dde6"/>
-<path d="M 522 238 L 914 238 L 914 474" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 522 552 L 688 552 L 688 444" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 808 386 L 1261 386 L 1261 474" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 1094 532 L 1137 532" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 1261 586 L 1261 680 L 1423 680" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 1547 626 L 1547 532 L 1709 532" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 1833 586 L 1833 768" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<path d="M 1833 880 L 1833 916" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
-<rect x="282" y="184" width="240" height="108" rx="12" fill="#e3e5fb" stroke="#5b5bd6" stroke-width="2.5"/>
-<text x="402" y="220" text-anchor="middle" font-size="19" fill="#1f2a44">Follows artists on</text>
-<text x="402" y="246" text-anchor="middle" font-size="19" fill="#1f2a44">Spotify, or shares a</text>
-<text x="402" y="272" text-anchor="middle" font-size="19" fill="#1f2a44">poster on the site</text>
-<rect x="282" y="478" width="240" height="108" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
-<text x="402" y="514" text-anchor="middle" font-size="19" fill="#1f2a44">Scheduler wakes the</text>
-<text x="402" y="540" text-anchor="middle" font-size="19" fill="#1f2a44">scan every 5 min,</text>
-<text x="402" y="566" text-anchor="middle" font-size="19" fill="#1f2a44">30 min and daily</text>
-<rect x="568" y="332" width="240" height="108" rx="12" fill="#ffffff" stroke="#5b8def" stroke-width="2.5"/>
-<text x="688" y="366" text-anchor="middle" font-size="19" fill="#1f2a44">Ticket + news pages:</text>
-<text x="688" y="392" text-anchor="middle" font-size="19" fill="#1f2a44">new shows, tiers,</text>
-<text x="688" y="418" text-anchor="middle" font-size="19" fill="#1f2a44">prices, dates</text>
-<rect x="854" y="478" width="240" height="108" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
-<text x="974" y="514" text-anchor="middle" font-size="19" fill="#1f2a44">Artist list + aliases,</text>
-<text x="974" y="540" text-anchor="middle" font-size="19" fill="#1f2a44">namesake blocks,</text>
-<text x="974" y="566" text-anchor="middle" font-size="19" fill="#1f2a44">Bengaluru-first rules</text>
-<rect x="1141" y="478" width="240" height="108" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
-<text x="1261" y="514" text-anchor="middle" font-size="19" fill="#1f2a44">Skips unchanged pages,</text>
-<text x="1261" y="540" text-anchor="middle" font-size="19" fill="#1f2a44">filters by artist +</text>
-<text x="1261" y="566" text-anchor="middle" font-size="19" fill="#1f2a44">Indian city</text>
-<rect x="1427" y="626" width="240" height="108" rx="12" fill="#d7f3e1" stroke="#34a35f" stroke-width="2.5"/>
-<text x="1547" y="660" text-anchor="middle" font-size="19" fill="#1f2a44">Gemini searches Google,</text>
-<text x="1547" y="686" text-anchor="middle" font-size="19" fill="#1f2a44">extracts show + tiers</text>
-<text x="1547" y="712" text-anchor="middle" font-size="19" fill="#1f2a44">with quotes, verifies</text>
-<rect x="1713" y="478" width="240" height="108" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
-<text x="1833" y="514" text-anchor="middle" font-size="19" fill="#1f2a44">Truth check + dedupe,</text>
-<text x="1833" y="540" text-anchor="middle" font-size="19" fill="#1f2a44">then rules set priority</text>
-<text x="1833" y="566" text-anchor="middle" font-size="19" fill="#1f2a44">P0 / P1 / P2 (no AI)</text>
-<rect x="1713" y="772" width="240" height="108" rx="12" fill="#fbd8e6" stroke="#d6457f" stroke-width="2.5"/>
-<text x="1833" y="808" text-anchor="middle" font-size="19" fill="#1f2a44">Email alert with venue,</text>
-<text x="1833" y="834" text-anchor="middle" font-size="19" fill="#1f2a44">date + ticket link,</text>
-<text x="1833" y="860" text-anchor="middle" font-size="19" fill="#1f2a44">saved in Neon</text>
-<rect x="1713" y="920" width="240" height="108" rx="12" fill="#fde0d9" stroke="#e2533c" stroke-width="2.5"/>
-<text x="1833" y="954" text-anchor="middle" font-size="19" fill="#1f2a44">Opens the email, buys</text>
-<text x="1833" y="980" text-anchor="middle" font-size="19" fill="#1f2a44">before early-bird</text>
-<text x="1833" y="1006" text-anchor="middle" font-size="19" fill="#1f2a44">sells out</text>
+<text x="141.5" y="228.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Karan</text>
+<text x="141.5" y="260.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(Fan, Spotify user)</text>
+<rect x="259" y="315" width="1717" height="150" fill="#fdf0eb"/>
+<rect x="24" y="315" width="235" height="150" fill="#1f2a44"/>
+<line x1="24" y1="315" x2="259" y2="315" stroke="#34405e"/>
+<text x="141.5" y="368.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Scheduler</text>
+<text x="141.5" y="400.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(GitHub Actions +</text>
+<text x="141.5" y="424.0" text-anchor="middle" font-size="18" fill="#c9d0e0">Vercel Cron)</text>
+<rect x="259" y="465" width="1717" height="150" fill="#eaf6fb"/>
+<rect x="24" y="465" width="235" height="150" fill="#1f2a44"/>
+<line x1="24" y1="465" x2="259" y2="465" stroke="#34405e"/>
+<text x="141.5" y="518.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Sources</text>
+<text x="141.5" y="550.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(District, SkillBox,</text>
+<text x="141.5" y="574.0" text-anchor="middle" font-size="18" fill="#c9d0e0">allevents, news)</text>
+<rect x="259" y="615" width="1717" height="150" fill="#fdf8e6"/>
+<rect x="24" y="615" width="235" height="150" fill="#1f2a44"/>
+<line x1="24" y1="615" x2="259" y2="615" stroke="#34405e"/>
+<text x="141.5" y="668.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">System</text>
+<text x="141.5" y="700.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(Radar backend</text>
+<text x="141.5" y="724.0" text-anchor="middle" font-size="18" fill="#c9d0e0">on Vercel)</text>
+<rect x="259" y="765" width="1717" height="150" fill="#e8f7ee"/>
+<rect x="24" y="765" width="235" height="150" fill="#1f2a44"/>
+<line x1="24" y1="765" x2="259" y2="765" stroke="#34405e"/>
+<text x="141.5" y="818.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">AI Model</text>
+<text x="141.5" y="850.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(Gemini Flash</text>
+<text x="141.5" y="874.0" text-anchor="middle" font-size="18" fill="#c9d0e0">via OpenRouter)</text>
+<rect x="259" y="915" width="1717" height="150" fill="#fcebf1"/>
+<rect x="24" y="915" width="235" height="150" fill="#1f2a44"/>
+<line x1="24" y1="915" x2="259" y2="915" stroke="#34405e"/>
+<text x="141.5" y="968.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Services</text>
+<text x="141.5" y="1000.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(Neon database,</text>
+<text x="141.5" y="1024.0" text-anchor="middle" font-size="18" fill="#c9d0e0">Resend email)</text>
+<rect x="259" y="1065" width="1717" height="150" fill="#eaf1fc"/>
+<rect x="24" y="1065" width="235" height="150" fill="#1f2a44"/>
+<line x1="24" y1="1065" x2="259" y2="1065" stroke="#34405e"/>
+<text x="141.5" y="1128.0" text-anchor="middle" font-size="25" font-weight="700" fill="#fff">Karan</text>
+<text x="141.5" y="1160.0" text-anchor="middle" font-size="18" fill="#c9d0e0">(Gets the update)</text>
+<line x1="545.1666666666667" y1="165" x2="545.1666666666667" y2="1215" stroke="#d9dde6"/>
+<line x1="831.3333333333334" y1="165" x2="831.3333333333334" y2="1215" stroke="#d9dde6"/>
+<line x1="1117.5" y1="165" x2="1117.5" y2="1215" stroke="#d9dde6"/>
+<line x1="1403.6666666666667" y1="165" x2="1403.6666666666667" y2="1215" stroke="#d9dde6"/>
+<line x1="1689.8333333333335" y1="165" x2="1689.8333333333335" y2="1215" stroke="#d9dde6"/>
+<path d="M 342 296 L 342 311 L 539 311 L 539 616 L 914 616 L 914 630" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 809 240 L 1587 240 L 1587 780" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 523 390 L 688 390 L 688 480" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 809 540 L 1261 540 L 1261 630" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 974 934 L 974 750" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 1095 690 L 1136 690" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 1261 746 L 1261 840 L 1422 840" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 1507 784 L 1507 690 L 1708 690" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 1833 746 L 1833 930" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 1833 1046 L 1833 1080" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<path d="M 1753 746 L 1753 906 L 1180 906 L 1180 990 L 1099 990" fill="none" stroke="#1f2a44" stroke-width="2.4" stroke-dasharray="8 6" marker-end="url(#ar)"/>
+<rect x="281" y="184" width="242" height="112" rx="12" fill="#e3e5fb" stroke="#5b5bd6" stroke-width="2.5"/>
+<text x="402" y="221" text-anchor="middle" font-size="19" fill="#1f2a44">Follows ~60 artists</text>
+<text x="402" y="247" text-anchor="middle" font-size="19" fill="#1f2a44">on Spotify (or the</text>
+<text x="402" y="273" text-anchor="middle" font-size="19" fill="#1f2a44">60-artist seed list)</text>
+<rect x="567" y="184" width="242" height="112" rx="12" fill="#e3e5fb" stroke="#5b5bd6" stroke-width="2.5"/>
+<text x="688" y="221" text-anchor="middle" font-size="19" fill="#1f2a44">Shares a ticket link</text>
+<text x="688" y="247" text-anchor="middle" font-size="19" fill="#1f2a44">or poster screenshot</text>
+<text x="688" y="273" text-anchor="middle" font-size="19" fill="#1f2a44">(Share-to-Radar)</text>
+<rect x="281" y="334" width="242" height="112" rx="12" fill="#fde1d6" stroke="#e8794a" stroke-width="2.5"/>
+<text x="402" y="371" text-anchor="middle" font-size="19" fill="#1f2a44">Wakes the scan every</text>
+<text x="402" y="397" text-anchor="middle" font-size="19" fill="#1f2a44">5 min, 30 min (Google</text>
+<text x="402" y="423" text-anchor="middle" font-size="19" fill="#1f2a44">sweep) and daily</text>
+<rect x="567" y="484" width="242" height="112" rx="12" fill="#ffffff" stroke="#2a9bc8" stroke-width="2.5"/>
+<text x="688" y="521" text-anchor="middle" font-size="19" fill="#1f2a44">Ticket + news pages:</text>
+<text x="688" y="547" text-anchor="middle" font-size="19" fill="#1f2a44">new shows, tiers,</text>
+<text x="688" y="573" text-anchor="middle" font-size="19" fill="#1f2a44">prices, dates, posters</text>
+<rect x="853" y="634" width="242" height="112" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
+<text x="974" y="671" text-anchor="middle" font-size="19" fill="#1f2a44">Artist list + aliases,</text>
+<text x="974" y="697" text-anchor="middle" font-size="19" fill="#1f2a44">namesake blocks,</text>
+<text x="974" y="723" text-anchor="middle" font-size="19" fill="#1f2a44">Bengaluru-first rules</text>
+<rect x="853" y="934" width="242" height="112" rx="12" fill="#fbd8e6" stroke="#d6457f" stroke-width="2.5"/>
+<text x="974" y="971" text-anchor="middle" font-size="19" fill="#1f2a44">Neon remembers past</text>
+<text x="974" y="997" text-anchor="middle" font-size="19" fill="#1f2a44">shows, sources and</text>
+<text x="974" y="1023" text-anchor="middle" font-size="19" fill="#1f2a44">alerts (no repeats)</text>
+<rect x="1140" y="634" width="242" height="112" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
+<text x="1261" y="671" text-anchor="middle" font-size="19" fill="#1f2a44">Skips unchanged pages,</text>
+<text x="1261" y="697" text-anchor="middle" font-size="19" fill="#1f2a44">keeps only your artists</text>
+<text x="1261" y="723" text-anchor="middle" font-size="19" fill="#1f2a44">+ Indian cities</text>
+<rect x="1426" y="784" width="242" height="112" rx="12" fill="#d7f3e1" stroke="#34a35f" stroke-width="2.5"/>
+<text x="1547" y="821" text-anchor="middle" font-size="19" fill="#1f2a44">Gemini searches Google,</text>
+<text x="1547" y="847" text-anchor="middle" font-size="19" fill="#1f2a44">reads pages + posters,</text>
+<text x="1547" y="873" text-anchor="middle" font-size="19" fill="#1f2a44">quotes every fact</text>
+<rect x="1712" y="634" width="242" height="112" rx="12" fill="#fdf0c2" stroke="#e0ac1a" stroke-width="2.5"/>
+<text x="1833" y="671" text-anchor="middle" font-size="19" fill="#1f2a44">Truth check + dedupe,</text>
+<text x="1833" y="697" text-anchor="middle" font-size="19" fill="#1f2a44">priority P0/P1/P2</text>
+<text x="1833" y="723" text-anchor="middle" font-size="19" fill="#1f2a44">(rules, no AI)</text>
+<rect x="1712" y="934" width="242" height="112" rx="12" fill="#fbd8e6" stroke="#d6457f" stroke-width="2.5"/>
+<text x="1833" y="971" text-anchor="middle" font-size="19" fill="#1f2a44">New show: one email</text>
+<text x="1833" y="997" text-anchor="middle" font-size="19" fill="#1f2a44">via Resend. Updates:</text>
+<text x="1833" y="1023" text-anchor="middle" font-size="19" fill="#1f2a44">in-app bell only</text>
+<rect x="1712" y="1084" width="242" height="112" rx="12" fill="#fde0d9" stroke="#e2533c" stroke-width="2.5"/>
+<text x="1833" y="1121" text-anchor="middle" font-size="19" fill="#1f2a44">Opens the email, buys</text>
+<text x="1833" y="1147" text-anchor="middle" font-size="19" fill="#1f2a44">before early-bird</text>
+<text x="1833" y="1173" text-anchor="middle" font-size="19" fill="#1f2a44">sells out</text>
+<text x="24" y="1257" font-size="19" fill="#5b6478">Dashed arrows = data flow. Only one AI box: every price, time, deadline, dedupe and priority decision is plain code, so alerts cannot contain invented facts. Website: poster radar with city dropdown + in-app notification bell.</text>
 </svg>

@@ -43,5 +43,5 @@ Karan follows ~60 artists and kept missing shows, because early-bird tickets sel
 2. Click a show: quoted evidence per tier, sources, travel card for other cities, **.ics** download.
 3. **Health** page: sources ok/blocked, Gemini budget, latency, scan runs.
 4. **Settings** (admin) → **Simulate announcement** → the [DEMO] email alert lands in your inbox; also show **Share to Radar** with a poster screenshot.
-5. **Components Map** (`docs/components-map.png`): follow the dashed arrows: Karan/Scheduler → pages → filter → Gemini → rules → email → Karan.
+5. **Components Map** (`docs/components-map.png`): follow the arrows: Karan/Scheduler → ticket pages → filter → Gemini → truth check + rules → one email (Resend) / bell → Karan. Point out that Neon is the memory that prevents repeat alerts.
 6. GitHub: show `tests/` and that CI fails if any non-Gemini AI SDK appears.
