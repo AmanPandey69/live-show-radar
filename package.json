@@ -18,7 +18,7 @@
     "smoke": "tsx scripts/smoke.ts",
     "sources:check": "tsx scripts/sources-check.ts",
     "db:migrate": "tsx scripts/migrate.ts",
-    "vercel-build": "tsx scripts/migrate.ts --if-db && tsx scripts/scan-once.ts daily --build && next build"
+    "vercel-build": "tsx scripts/migrate.ts --if-db && tsx scripts/ai-ping.ts && tsx scripts/scan-once.ts daily --build && next build"
   },
   "dependencies": {
     "@google/genai": "^2.28.0",

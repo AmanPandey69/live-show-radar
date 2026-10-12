@@ -127,7 +127,7 @@ export class Engine {
     } else {
       const r = await aiExtract(this.gemini, { text: o.text, url: o.url, today: this.today(), artistHints: hints, priority: this.priorityFor(matches), cacheKey: o.content_hash });
       if (r.ok) return r.data.is_event_announcement ? r.data.events.map((c) => ({ c, ai: true })) : [];
-      this.log(`extract fallback (${r.reason}) for ${o.url}`);
+      this.log(`extract fallback (${r.reason}${r.detail ? `: ${r.detail.slice(0, 160)}` : ""}) for ${o.url}`);
     }
     this.stats.fallbacks++;
     const h = heuristicExtract(o.text, this.matcher.match(o.text), this.now());

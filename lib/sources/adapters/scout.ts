@@ -58,7 +58,7 @@ export function makeScoutAdapter(gemini: Gemini, settingsRef: () => Settings, ca
         const batch = due.splice(0, ARTISTS_PER_CALL);
         const r = await aiScout(gemini, { artists: batch.map((a) => ({ name: a.name, international: a.is_international })), today });
         if (!r.ok) {
-          ctx.log(`scout: ${r.reason} ${r.detail ?? ""}`);
+          ctx.log(`scout: ${r.reason} ${(r.detail ?? "").slice(0, 200)}`);
           if (r.reason === "no_grounding" || r.reason === "disabled") throw new Error(`no_grounding: ${r.detail ?? r.reason}`);
           break; // budget/cooldown: stop this run, coverage resumes next run
         }
