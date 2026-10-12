@@ -18,7 +18,7 @@ Live Show Radar sends concert and early-bird alerts for the ~60 artists Karan fo
    - **P0** = Bengaluru AND (early-bird OR must-see).
    - **P1** = other-city early-bird, or any Bengaluru show.
    - **P2** = everything else; only P2 respects quiet hours.
-6. **Delivers on every channel.** Telegram (buttons: tickets, Going/Maybe/Not interested, Wrong info/artist, calendar, remind me), email via Resend as fallback, reminders at T-24h/T-1h/T-10m, `.ics` files, a daily digest, and the trust dashboard.
+6. **Delivers alerts by email.** Email via Resend (artist, venue, IST date, ticket-status line, ticket link, sources, detection latency, "why it matters", .ics link), reminders at T-24h/T-1h/T-10m, `.ics` files, a daily digest, an in-app alert log, and the trust dashboard.
 
 ## Setup
 ```bash
@@ -40,8 +40,7 @@ With `MOCK_MODE=1` (or no keys) everything runs on an in-memory store with a moc
 | `GEMINI_DAILY_CALL_BUDGET`, `GEMINI_DAILY_GROUNDED_BUDGET` | Daily caps (IST day) with a priority reserve: must-see work can use 100%, normal 85%, low 60% |
 | `CRON_SECRET` | Bearer token for `/api/cron/*` (Vercel Cron sends it automatically) |
 | `ADMIN_PASSWORD` | `/settings`, Scan now, Simulate |
-| `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `TELEGRAM_WEBHOOK_SECRET` | Primary alerts and Share-to-Radar. Press **Connect Telegram webhook** in `/settings` |
-| `RESEND_API_KEY`, `FROM_EMAIL`, `ALERT_EMAIL` | Email (secondary / fallback) |
+| `RESEND_API_KEY`, `FROM_EMAIL`, `ALERT_EMAIL` | **Alert channel.** `FROM_EMAIL` must be on a domain verified in Resend; `ALERT_EMAIL` is Karan's inbox |
 | `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REDIRECT_URI`, `TOKEN_ENCRYPTION_KEY` | Spotify sync. Tokens are stored AES-256-GCM encrypted. Redirect URI: `https://liveshowradar-blr.vercel.app/api/spotify/callback` |
 | `APP_BASE_URL`, `HOME_CITY` | `https://liveshowradar-blr.vercel.app`, `Bengaluru` |
 
@@ -55,7 +54,7 @@ Tested live on 2026-10-12; details in `docs/SOURCES.md`.
 | **allevents.in** (aggregator, secondary) | City concert pages with Event JSON-LD. |
 | **Bing News RSS** | Per-artist and per-city queries in rotation; robots-allowed; personal-use terms. |
 | **Gemini scout** | Grounded Google Search (OpenRouter web plugin, `engine: native`). Findings are *leads*: they pass the same extraction and truth gate and stay **Unconfirmed** until corroborated. |
-| **Telegram share** | Forward a ticket link, a poster screenshot (Gemini vision) or caption text. Instagram/X links are never fetched; the bot asks for a screenshot instead. |
+| **Share-to-Radar** | `/settings` form: paste a ticket link or caption, or upload a poster screenshot (Gemini vision). Instagram/X links are never fetched; upload a screenshot instead. |
 | **Blocked / off** | BookMyShow, SortMyScene (Cloudflare), Ticketgenie (API 403): marked blocked, reached only through search. Google News RSS (robots.txt disallows `/rss`). Reddit (robots.txt). Bandsintown / Ticketmaster: optional adapters, disabled without consent/keys. |
 
 ## Scheduling: what runs when, and why
@@ -74,7 +73,7 @@ Vercel Hobby cron can run **at most once a day** (±59 min), and a more frequent
 - Admin **Scan now** in `/settings`. Health JSON at `GET /api/health`.
 
 ## Demo
-- `data/seed/demo_events.json`: clearly fake **SAMPLE** events (`is_demo=true`). They never send real Telegram or email.
+- `data/seed/demo_events.json`: clearly fake **SAMPLE** events (`is_demo=true`). They never send real email.
 - **Simulate announcement** (`/settings`): injects a demo Bengaluru show with an open early-bird tier for a followed artist and runs the **real** pipeline end to end, sending a message labelled **[DEMO]**.
 
 ## Tests

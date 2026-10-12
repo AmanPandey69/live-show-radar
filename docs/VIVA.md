@@ -1,7 +1,7 @@
 # Viva cheat-sheet: Live Show Radar
 
 ## 30-second pitch
-Karan follows ~60 artists and kept missing shows, because early-bird tickets sell out in ~6 hours. Live Show Radar checks Indian ticketing sites, news and Google Search for every artist he follows. When a show appears (Bengaluru first, rest of India too) it sends one Telegram alert with:
+Karan follows ~60 artists and kept missing shows, because early-bird tickets sell out in ~6 hours. Live Show Radar checks Indian ticketing sites, news and Google Search for every artist he follows. When a show appears (Bengaluru first, rest of India too) it sends one email alert with:
 - artist, venue, city and IST date;
 - a clear ticket line such as "EARLY-BIRD OPEN NOW" or "Early-bird: not stated";
 - the ticket link and the sources;
@@ -15,12 +15,12 @@ Karan follows ~60 artists and kept missing shows, because early-bird tickets sel
 ## The 6 parts (matches the Components Map)
 | Part | What it is here | One-liner to say |
 |---|---|---|
-| Trigger | GitHub Actions every 5 min / 30 min, Vercel Cron daily, Telegram share, admin buttons | "Vercel's free cron only runs once a day, so the frequent runs come from GitHub Actions calling a protected URL." |
+| Trigger | GitHub Actions every 5 min / 30 min, Vercel Cron daily, Share-to-Radar form, admin buttons | "Vercel's free cron only runs once a day, so the frequent runs come from GitHub Actions calling a protected URL." |
 | Input | Spotify artists (or a 60-artist seed list), District, SkillBox, allevents, Bing News, Google Search via Gemini | "BookMyShow blocks bots with Cloudflare, so we don't scrape it; we find it through search instead." |
 | Context | Affinity tiers (must-see/like/casual), aliases, namesake blocks, venue sizes, quiet hours, past feedback | "Context decides priority and catches fake matches like 'Coldplay tribute night'." |
 | Processing | Pre-filter, extraction, truth gate, dedupe, state machine, priority, reminders | "Most of the logic is plain code, so it's testable and can't hallucinate." |
 | AI | Gemini Flash only (`google/gemini-3.8-flash` via OpenRouter, Google servers only): search, extract, read posters, verify, check artist identity, classify whispers, write the "why" line | "AI only reads and checks; it never decides priority or writes the ticket facts." |
-| Output | Telegram (+ buttons), email fallback, .ics calendar, dashboard, daily digest, health page | "Even 'no news' is reported daily, so silence means checked, not broken." |
+| Output | Email alert (Resend), .ics calendar, dashboard, daily digest, health page | "Even 'no news' is reported daily, so silence means checked, not broken." |
 
 ## Likely questions, short answers
 - **How do you stop hallucinated early-bird info?** Every field carries a verbatim quote. Code checks the quote exists in the page *and* contains that date, time or price. If not, the field becomes "not stated". A second Gemini call can also veto fields.
@@ -41,6 +41,6 @@ Karan follows ~60 artists and kept missing shows, because early-bird tickets sel
 1. Open the **Radar** page: Bengaluru first, real shows (e.g. Papon @ District Arena, 14 Nov) with status chips and the early-bird line.
 2. Click a show: quoted evidence per tier, sources, travel card for other cities, **.ics** download.
 3. **Health** page: sources ok/blocked, Gemini budget, latency, scan runs.
-4. **Settings** (admin) → **Simulate announcement** → the [DEMO] alert arrives on Telegram with buttons.
-5. **Components Map** (`docs/components-map.png`): follow the dashed arrows: Karan/Scheduler → pages → filter → Gemini → rules → Telegram → Karan.
+4. **Settings** (admin) → **Simulate announcement** → the [DEMO] email alert lands in your inbox; also show **Share to Radar** with a poster screenshot.
+5. **Components Map** (`docs/components-map.png`): follow the dashed arrows: Karan/Scheduler → pages → filter → Gemini → rules → email → Karan.
 6. GitHub: show `tests/` and that CI fails if any non-Gemini AI SDK appears.

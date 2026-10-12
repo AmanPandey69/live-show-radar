@@ -1,4 +1,4 @@
-import { env, hasEmail, hasTelegram } from "@/lib/config/env";
+import { env, hasEmail } from "@/lib/config/env";
 import type { RenderedAlert } from "@/lib/alerts/render";
 
 export interface SendResult { ok: boolean; external_id?: string; error?: string }
@@ -11,7 +11,7 @@ export interface OutgoingMessage {
 }
 
 export interface Notifier {
-  channel: "telegram" | "email" | "mock";
+  channel: "email" | "mock";
   available(): boolean;
   send(m: OutgoingMessage): Promise<SendResult>;
 }
@@ -24,59 +24,6 @@ export class MockNotifier implements Notifier {
   async send(m: OutgoingMessage) {
     this.sent.push(m);
     return { ok: true, external_id: `mock-${this.sent.length}` };
-  }
-}
-
-export function telegramKeyboard(m: OutgoingMessage) {
-  const id = m.alertId;
-  const rows: { text: string; url?: string; callback_data?: string }[][] = [];
-  const top: { text: string; url?: string; callback_data?: string }[] = [];
-  if (m.rendered.ticketUrl) top.push({ text: "🎟 Open tickets", url: m.rendered.ticketUrl });
-  top.push({ text: "Details", url: m.rendered.eventUrl });
-  rows.push(top);
-  rows.push([
-    { text: "✅ Going", callback_data: `fb:going:${id}` },
-    { text: "🤔 Maybe", callback_data: `fb:maybe:${id}` },
-    { text: "🙅 Not interested", callback_data: `fb:not_interested:${id}` },
-  ]);
-  rows.push([
-    { text: "❌ Wrong info", callback_data: `fb:wrong_info:${id}` },
-    { text: "👤 Wrong artist", callback_data: `fb:wrong_artist:${id}` },
-  ]);
-  const cal: { text: string; url?: string; callback_data?: string }[] = [];
-  if (m.icsUrl) cal.push({ text: "📅 Add to calendar", url: m.icsUrl });
-  cal.push({ text: "⏰ Remind me before sale", callback_data: `rm:${id}` });
-  rows.push(cal);
-  return { inline_keyboard: rows };
-}
-
-export async function telegramApi(method: string, body: Record<string, unknown>): Promise<{ ok: boolean; result?: unknown; description?: string }> {
-  const res = await fetch(`https://api.telegram.org/bot${env().TELEGRAM_BOT_TOKEN}/${method}`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(15_000),
-  });
-  return (await res.json()) as { ok: boolean; result?: unknown; description?: string };
-}
-
-export class TelegramNotifier implements Notifier {
-  channel = "telegram" as const;
-  available() { return hasTelegram(); }
-  async send(m: OutgoingMessage) {
-    try {
-      const r = await telegramApi("sendMessage", {
-        chat_id: env().TELEGRAM_CHAT_ID,
-        text: m.rendered.html.slice(0, 4000),
-        parse_mode: "HTML",
-        link_preview_options: { is_disabled: true },
-        ...(m.buttons ? { reply_markup: telegramKeyboard(m) } : {}),
-      });
-      if (!r.ok) return { ok: false, error: r.description ?? "telegram error" };
-      return { ok: true, external_id: String((r.result as { message_id?: number })?.message_id ?? "") };
-    } catch (e) {
-      return { ok: false, error: (e as Error).message };
-    }
   }
 }
 

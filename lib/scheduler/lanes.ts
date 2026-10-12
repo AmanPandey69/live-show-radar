@@ -4,7 +4,7 @@ import { Gemini } from "@/lib/ai/gemini";
 import type { Repo } from "@/lib/db/repo";
 import type { SourceHealth } from "@/lib/domain/types";
 import type { Channels } from "@/lib/notify/dispatch";
-import { EmailNotifier, MockNotifier, TelegramNotifier } from "@/lib/notify/notifiers";
+import { EmailNotifier, MockNotifier } from "@/lib/notify/notifiers";
 import { Engine } from "@/lib/pipeline/engine";
 import { BlockedError, PoliteHttp, type Http } from "@/lib/sources/http";
 import { alleventsAdapter } from "@/lib/sources/adapters/allevents";
@@ -26,7 +26,7 @@ export interface LaneResult {
 }
 
 export function defaultChannels(): Channels {
-  return { primary: [new TelegramNotifier(), new EmailNotifier()], mock: new MockNotifier() };
+  return { primary: [new EmailNotifier()], mock: new MockNotifier() };
 }
 
 export async function makeEngine(repo: Repo, opts: { channels?: Channels; gemini?: Gemini; log?: (m: string) => void; now?: () => Date } = {}) {

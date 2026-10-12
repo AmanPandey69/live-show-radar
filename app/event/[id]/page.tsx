@@ -157,7 +157,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                   <button key={k} name="kind" value={k} className="btn !py-1.5 !px-3 !text-[12.5px]">{k.replace("_", " ")}</button>
                 ))}
               </form>
-            ) : <p className="text-sm muted">Owner feedback via Telegram buttons, or <Link className="underline" href="/settings">sign in</Link>.</p>}
+            ) : <p className="text-sm muted">Owner feedback after <Link className="underline" href="/settings">signing in</Link>.</p>}
             {feedback.length > 0 && <p className="text-xs muted mt-3">Recorded: {feedback.map((f) => f.kind.replace("_", " ")).join(", ")}</p>}
           </section>
 

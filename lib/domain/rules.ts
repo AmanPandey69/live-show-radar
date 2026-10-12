@@ -142,7 +142,7 @@ export interface UrgencyInput extends PriorityInput {
 
 /**
  * 0–100. Small rooms sell out fastest; early-bird windows last ~6h; must-see weighs most.
- * Drives channel choice and reminder cadence (≥70: Telegram + email + all reminders).
+ * Drives channel choice and reminder cadence (≥70: email immediately + all reminders).
  */
 export function urgencyScore(u: UrgencyInput): number {
   const now = (u.now ?? new Date()).getTime();

@@ -12,7 +12,7 @@ The shows at risk are mid-tier international acts and rising Indian artists play
 One person, Karan. He will buy the same day an announcement drops if early-bird is still open. He also wants shows outside Bengaluru, with enough notice to decide on travel.
 
 ## Outcome
-Within minutes of a show first appearing on a monitored source, Karan gets one Telegram message (email as fallback) with:
+Within minutes of a show first appearing on a monitored source, Karan gets one email alert with:
 - artist, venue, city, IST date/time;
 - an explicit ticket-status line (e.g. "EARLY-BIRD OPEN NOW, closes …", or "Early-bird: not stated, check the link");
 - the ticket link and the sources;
@@ -32,7 +32,7 @@ Reminders fire at T-24h / T-1h / T-10m before known sale windows. A daily digest
 | **Etiquette / legal** | robots.txt obeyed, honest user-agent, ETag/If-Modified-Since, per-host spacing. No logins, no CAPTCHA or bot-protection bypass. BookMyShow, Ticketgenie and SortMyScene are marked blocked rather than evaded. Google News RSS is off (robots.txt). Reddit not used (robots.txt). |
 
 ## Deliberately not built
-- **Instagram/X scraping:** login-walled. Covered by forwarding a screenshot to the Telegram bot.
+- **Instagram/X scraping:** login-walled. Covered by Share-to-Radar: upload a screenshot of the post on the site.
 - **Getting around BookMyShow's Cloudflare block:** we rely on search-discovered snippets instead.
 - **Fares or live travel prices:** only a static, approximate travel-time table.
 - **Auto-buying tickets.**

@@ -174,7 +174,7 @@ export interface Alert {
 export interface Delivery {
   id: string;
   alert_id: string | null;
-  channel: "telegram" | "email" | "inapp" | "mock";
+  channel: "email" | "inapp" | "mock";
   status: "sent" | "failed" | "skipped" | "mock";
   attempt: number;
   error: string | null;
@@ -253,7 +253,7 @@ export interface GeminiUsage {
 export interface Settings {
   home_city: string;
   quiet_hours: { enabled: boolean; start: string; end: string }; // "23:00" → "07:30" IST
-  channels: { telegram: boolean; email: boolean };
+  channels: { email: boolean };
   whispers_enabled: boolean;
   whisper_min_confidence: number;
   confirm_threshold: number; // feedback-tuned: min verifier score to accept a field
@@ -263,7 +263,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Settings = {
   home_city: "Bengaluru",
   quiet_hours: { enabled: true, start: "23:00", end: "07:30" },
-  channels: { telegram: true, email: true },
+  channels: { email: true },
   whispers_enabled: true,
   whisper_min_confidence: 0.8,
   confirm_threshold: 0.7,

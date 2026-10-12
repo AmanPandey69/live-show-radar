@@ -4,7 +4,7 @@ import { isHomeCity } from "@/lib/text/cities";
 import { formatIst, formatIstDate, humanizeDuration } from "@/lib/text/dates-ist";
 
 /**
- * Deterministic alert rendering. Telegram and email use the same fields.
+ * Deterministic alert rendering for the email alert and the in-app log.
  * Every ticket fact shown is confirmed (quoted), labelled inferred, or explicitly "not stated".
  */
 
@@ -75,7 +75,7 @@ export interface RenderInput {
 export interface RenderedAlert {
   title: string;
   lines: string[];
-  html: string; // Telegram HTML subset
+  html: string; // simple HTML (in-app / logs)
   text: string; // plain text (email text part, logs)
   ticketUrl: string | null;
   eventUrl: string;

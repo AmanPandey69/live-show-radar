@@ -30,7 +30,7 @@ Rules every adapter follows:
 | 4 | Artist official sites / tour pages | **Varies per artist** | Optional `tour_url` per artist in seed. Fetched only if robots allow and the page changes (hash). Many use JS widgets (no data in HTML), so the adapter records `no_data` and moves on | Free |
 | 5 | Promoter and venue calendars | **Mixed** | `config/sources.yaml` lists them; only those with server-rendered HTML or JSON-LD are enabled. BIC (`bangaloreinternationalcentre.org/events`) returns 200 with no Event JSON-LD and needs Gemini extraction on hash change | Free (+1 Gemini call per change) |
 | 6 | Reddit RSS (r/bangalore etc.) | **Blocked by robots.txt** (`User-agent: * Disallow: /`) | Not built | n/a |
-| 7 | Telegram share-to-radar | **Works** (Bot API 10.3) | Webhook; links and posters → Gemini vision/extraction | Free + 1–3 Gemini calls per share |
+| 7 | Share-to-Radar (web form) | **Works** | Paste a link or caption, or upload a poster → Gemini vision/extraction | Free + 1–3 Gemini calls per share |
 | 8a | Bandsintown | Needs written consent + `app_id` | Adapter only, disabled unless `BANDSINTOWN_APP_ID` is set | Free with consent |
 | 8b | Ticketmaster Discovery | Needs `TICKETMASTER_API_KEY` (401 without) | Adapter only, disabled unless key set. **TODO:** India coverage unverified; expected near-zero, since TM doesn't sell in India | Free tier 5,000/day |
 | 9 | Songkick | API closed to new users; terms page not reachable (404) | Not built | n/a |

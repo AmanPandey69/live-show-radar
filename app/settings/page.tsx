@@ -1,5 +1,5 @@
 import { isAdmin } from "@/lib/auth/admin";
-import { env, hasDb, hasEmail, hasGemini, hasSpotify, hasTelegram } from "@/lib/config/env";
+import { env, hasDb, hasEmail, hasGemini, hasSpotify } from "@/lib/config/env";
 import { getRepo } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +35,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
           <form action="/api/admin/logout" method="post"><button className="btn">Log out</button></form>
         </div>
         <div className="flex flex-wrap gap-2 mt-3">
-          <Flag ok={hasDb()} label="Neon DB" /><Flag ok={hasGemini()} label={`AI (${e.GEMINI_MODEL})`} /><Flag ok={hasTelegram()} label="Telegram" />
+          <Flag ok={hasDb()} label="Neon DB" /><Flag ok={hasGemini()} label={`AI (${e.GEMINI_MODEL})`} />
           <Flag ok={hasEmail()} label="Email (Resend)" /><Flag ok={hasSpotify()} label="Spotify app" /><Flag ok={!!tokens} label="Spotify connected" />
         </div>
       </div>
@@ -50,7 +50,6 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
             <button className="btn">Simulate announcement [DEMO]</button>
           </form>
           <form action="/api/admin/seed" method="post"><button className="btn">Re-seed artists + demo</button></form>
-          <form action="/api/admin/telegram" method="post"><button className="btn">Connect Telegram webhook + test</button></form>
           <a className="btn" href="/api/spotify/login">Connect Spotify (owner)</a>
         </div>
         <p className="text-xs muted">Simulate injects a clearly-labelled demo event (Bengaluru, early-bird open) and runs the real pipeline end to end; the message is labelled [DEMO].</p>
@@ -59,8 +58,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       <div className="panel p-5">
         <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-3">Alerts & rules</h2>
         <form action="/api/admin/settings" method="post" className="grid sm:grid-cols-2 gap-3 text-sm">
-          <label className="flex gap-2 items-center"><input type="checkbox" name="ch_telegram" defaultChecked={s.channels.telegram} /> Telegram (primary)</label>
-          <label className="flex gap-2 items-center"><input type="checkbox" name="ch_email" defaultChecked={s.channels.email} /> Email (secondary / fallback)</label>
+          <label className="flex gap-2 items-center"><input type="checkbox" name="ch_email" defaultChecked={s.channels.email} /> Email alerts (Resend)</label>
           <label className="flex gap-2 items-center"><input type="checkbox" name="quiet_enabled" defaultChecked={s.quiet_hours.enabled} /> Quiet hours for P2 (P0/P1 always send)</label>
           <div className="flex gap-2 items-center">from <input name="quiet_start" defaultValue={s.quiet_hours.start} className="w-20" /> to <input name="quiet_end" defaultValue={s.quiet_hours.end} className="w-20" /> IST</div>
           <label className="flex gap-2 items-center"><input type="checkbox" name="whispers" defaultChecked={s.whispers_enabled} /> Whispers feed (opt-in signals)</label>
@@ -68,6 +66,15 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
           <div className="muted">Home city: <b>{e.HOME_CITY}</b> (env HOME_CITY). Priority: P0 = home city AND (early-bird open/imminent OR must-see); P1 = other-city early-bird or any home-city show; P2 = rest.</div>
           <div className="muted">Confidence threshold (feedback-tuned): {s.confirm_threshold}</div>
           <div><button className="btn btn-primary">Save</button></div>
+        </form>
+      </div>
+
+      <div className="panel p-5">
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-2">Share to Radar</h2>
+        <p className="text-sm muted mb-3">Saw a show on Instagram or a ticket site? Paste the link or the caption, or upload a screenshot of the poster. Gemini reads it, matches it to your artists, and you get an instant email alert. Instagram links are never scraped, so upload a screenshot instead.</p>
+        <form action="/api/admin/share" method="post" encType="multipart/form-data" className="space-y-2">
+          <textarea name="text" rows={3} className="w-full" placeholder="Ticket link (district.in, skillboxes.com…) or announcement text" />
+          <div className="flex flex-wrap gap-3 items-center text-sm"><input type="file" name="poster" accept="image/*" /> <button className="btn btn-primary">Add to radar</button></div>
         </form>
       </div>
 
@@ -83,7 +90,6 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       <div className="panel p-5 text-sm space-y-1">
         <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-2">Integration URLs</h2>
         <div>Spotify redirect URI: <code>{base}/api/spotify/callback</code></div>
-        <div>Telegram webhook: <code>{base}/api/telegram/webhook</code> (secret header required; use the button above)</div>
         <div>Fast lane: <code>POST {base}/api/cron/scan?lane=fast</code> · Deep lane: <code>POST {base}/api/cron/scan?lane=deep</code> (Bearer CRON_SECRET)</div>
         <div>Daily (Vercel Cron): <code>{base}/api/cron/daily</code> · Health: <code>{base}/api/health</code></div>
       </div>

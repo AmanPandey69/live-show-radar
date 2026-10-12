@@ -64,7 +64,7 @@ export interface ObservationInput {
   candidate: Candidate | null; // deterministic parse (e.g. JSON-LD), skips Gemini extraction
   is_primary: boolean;
   is_demo?: boolean;
-  image?: { mimeType: string; base64: string } | null; // posters (Telegram share)
+  image?: { mimeType: string; base64: string } | null; // posters (Share-to-Radar upload)
   image_url?: string | null; // public poster/cover URL from the source page (display only)
 }
 

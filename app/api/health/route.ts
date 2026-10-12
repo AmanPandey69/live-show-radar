@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRepo } from "@/lib/db";
-import { hasGemini, hasTelegram, hasEmail, hasDb, env } from "@/lib/config/env";
+import { hasGemini, hasEmail, hasDb, env } from "@/lib/config/env";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({
       ok: true,
       db: repo.kind,
-      configured: { db: hasDb(), ai: hasGemini(), telegram: hasTelegram(), email: hasEmail(), model: env().GEMINI_MODEL },
+      configured: { db: hasDb(), ai: hasGemini(), email: hasEmail(), model: env().GEMINI_MODEL },
       heartbeat: hb,
       last_run: runs[0] ? { lane: runs[0].lane, status: runs[0].status, started_at: runs[0].started_at } : null,
       real_events: events.length,

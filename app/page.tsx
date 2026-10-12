@@ -68,7 +68,7 @@ export default async function RadarPage() {
         <div className="p-8 sm:p-12 relative z-10">
           <div className="text-[11px] font-semibold tracking-[.18em] uppercase text-[#f0abfc] mb-3">Always on the radar</div>
           <h2 className="text-4xl sm:text-5xl font-extrabold leading-[1]">Get tickets <span className="grad-text">first.</span></h2>
-          <p className="text-white/75 mt-4 max-w-md">One Telegram ping the minute a show or early-bird drops, with the venue, the IST time and the ticket link. Every fact is quoted from its source.</p>
+          <p className="text-white/75 mt-4 max-w-md">One email the minute a show or early-bird drops, with the venue, the IST time and the ticket link. Every fact is quoted from its source.</p>
           <div className="flex flex-wrap gap-3 mt-7">
             <Link href="/alerts" className="btn btn-primary">See past alerts</Link>
             <Link href="/health" className="btn">What we checked</Link>

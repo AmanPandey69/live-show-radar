@@ -20,9 +20,6 @@ const EnvZ = z.object({
   SPOTIFY_CLIENT_ID: z.string().optional(),
   SPOTIFY_CLIENT_SECRET: z.string().optional(),
   SPOTIFY_REDIRECT_URI: z.string().optional(),
-  TELEGRAM_BOT_TOKEN: z.string().optional(),
-  TELEGRAM_CHAT_ID: z.string().optional(),
-  TELEGRAM_WEBHOOK_SECRET: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
   FROM_EMAIL: z.string().optional(),
   ALERT_EMAIL: z.string().optional(),
@@ -53,6 +50,5 @@ export function resetEnv() {
 export const isMock = () => env().MOCK_MODE;
 export const hasDb = () => !isMock() && !!env().DATABASE_URL && !env().DATABASE_URL!.includes("[SENSITIVE]");
 export const hasGemini = () => !isMock() && (!!env().OPENROUTER_API_KEY || !!env().GEMINI_API_KEY);
-export const hasTelegram = () => !isMock() && !!env().TELEGRAM_BOT_TOKEN && !!env().TELEGRAM_CHAT_ID;
 export const hasEmail = () => !isMock() && !!env().RESEND_API_KEY && !!env().FROM_EMAIL && !!env().ALERT_EMAIL;
 export const hasSpotify = () => !!env().SPOTIFY_CLIENT_ID && !!env().SPOTIFY_REDIRECT_URI;

@@ -32,7 +32,7 @@ export async function deliver(
     return "held";
   }
   const msg: OutgoingMessage = { alertId: alert.id, eventId: alert.event_id, rendered, buttons: true, icsUrl: opts.icsUrl };
-  const live = ch.primary.filter((n) => n.available() && (n.channel !== "email" || opts.settings.channels.email) && (n.channel !== "telegram" || opts.settings.channels.telegram));
+  const live = ch.primary.filter((n) => n.available() && (n.channel !== "email" || opts.settings.channels.email));
   const demoBlocked = alert.is_demo && !opts.allowDemoSend;
 
   if (live.length === 0 || demoBlocked) {

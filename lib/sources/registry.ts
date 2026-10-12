@@ -8,7 +8,7 @@ export const STATIC_SOURCES: SourceRow[] = [
   { id: "bing-news", name: "Bing News RSS", kind: "news", is_primary: false, enabled: true, config: { lane: "fast" } },
   { id: "google-news", name: "Google News RSS (off: robots.txt)", kind: "news", is_primary: false, enabled: false, config: { lane: "fast" } },
   { id: "gemini-scout", name: "Gemini Flash + Google Search grounding", kind: "search", is_primary: false, enabled: true, config: { lane: "deep" } },
-  { id: "telegram-share", name: "Share-to-Radar (Telegram)", kind: "share", is_primary: false, enabled: true, config: { lane: "push" } },
+  { id: "share", name: "Share-to-Radar (link / caption / poster upload)", kind: "share", is_primary: false, enabled: true, config: { lane: "push" } },
   { id: "bookmyshow", name: "BookMyShow (blocked by Cloudflare: search-discovered only)", kind: "ticketing", is_primary: true, enabled: false, config: { status: "blocked" } },
   { id: "ticketgenie", name: "Ticketgenie (API 403: search-discovered only)", kind: "ticketing", is_primary: true, enabled: false, config: { status: "blocked" } },
   { id: "bandsintown", name: "Bandsintown (needs written consent + app_id)", kind: "api", is_primary: false, enabled: false, config: { env: "BANDSINTOWN_APP_ID" } },
