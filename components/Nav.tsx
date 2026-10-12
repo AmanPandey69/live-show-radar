@@ -7,8 +7,6 @@ const NAV = [
   ["/alerts", "Alerts"],
   ["/artists", "Artists"],
   ["/whispers", "Whispers"],
-  ["/health", "Health"],
-  ["/settings", "Settings"],
 ] as const;
 
 export function Nav() {
