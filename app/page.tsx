@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { CountUp } from "@/components/CountUp";
 import { HeroCarousel, type Slide } from "@/components/HeroCarousel";
 import { PosterRing } from "@/components/PosterRing";
 import { ShowTabs } from "@/components/ShowTabs";
+import { StatLink } from "@/components/StatLink";
 import { ticketTone } from "@/components/ui";
 import { getRepo } from "@/lib/db";
 import { formatIst, formatIstDate } from "@/lib/text/dates-ist";
@@ -39,10 +39,10 @@ export default async function RadarPage() {
         slides={slides}
         stats={
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
-            <MiniStat v={real.length} l="Upcoming India shows" />
-            <MiniStat v={real.filter((x) => x.isHome).length} l="In Bengaluru" />
-            <MiniStat v={real.filter((x) => ticketTone(x.statusLine) === "hot").length} l="Early-bird open now" />
-            <MiniStat v={artists.length} l="Artists watched" />
+            <StatLink v={real.length} l="Upcoming India shows" city="all" tab="all" />
+            <StatLink v={real.filter((x) => x.isHome).length} l="In Bengaluru" city="Bengaluru" tab="all" />
+            <StatLink v={real.filter((x) => ticketTone(x.statusLine) === "hot").length} l="Early-bird open now" city="all" tab="act" />
+            <StatLink v={artists.length} l="Artists watched" href="/artists" />
           </div>
         }
       />
@@ -81,11 +81,3 @@ export default async function RadarPage() {
   );
 }
 
-function MiniStat({ v, l }: { v: number; l: string }) {
-  return (
-    <div className="stat !py-3.5">
-      <div className="v !text-[32px]"><CountUp to={v} /></div>
-      <div className="l">{l}</div>
-    </div>
-  );
-}

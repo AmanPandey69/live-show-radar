@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { EventView } from "@/lib/view";
 import { EventCard } from "./EventCard";
 import { ticketTone } from "./ui";
@@ -13,6 +13,19 @@ export function ShowTabs({ views }: { views: EventView[] }) {
   const [tab, setTab] = useState<Tab>("all");
   const [realOnly, setRealOnly] = useState(false);
   const row = useRef<HTMLDivElement>(null);
+
+  // Hero stat tiles dispatch {city, tab} to pre-filter this browser.
+  useEffect(() => {
+    const on = (e: Event) => {
+      const d = (e as CustomEvent<{ city?: string; tab?: Tab }>).detail ?? {};
+      if (d.city) setCity(d.city);
+      if (d.tab) setTab(d.tab);
+      setRealOnly(true);
+      row.current?.scrollTo({ left: 0 });
+    };
+    window.addEventListener("lsr:filter", on);
+    return () => window.removeEventListener("lsr:filter", on);
+  }, []);
 
   const base = useMemo(() => views.filter((v) => !realOnly || !v.event.is_demo), [views, realOnly]);
   const counts = useMemo(() => {

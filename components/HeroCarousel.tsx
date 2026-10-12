@@ -15,7 +15,7 @@ export function HeroCarousel({ slides, stats }: { slides: Slide[]; stats: React.
   const n = slides.length;
   useEffect(() => {
     if (paused || n < 2) return;
-    const t = setInterval(() => setI((x) => (x + 1) % n), 5500);
+    const t = setInterval(() => setI((x) => (x + 1) % n), 8000);
     return () => clearInterval(t);
   }, [paused, n]);
   const s = slides[i];
