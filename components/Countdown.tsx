@@ -17,8 +17,8 @@ export function Countdown({ at, label }: { at: string; label: string }) {
   const m = Math.floor((s % 3600) / 60);
   const sec = s % 60;
   return (
-    <span className="chip chip-accent tabular-nums">
-      ⏱ {label} {d > 0 ? `${d}d ` : ""}{h}h {String(m).padStart(2, "0")}m {String(sec).padStart(2, "0")}s
+    <span className="chip chip-dark tabular-nums" title={label}>
+      {label.replace(" in", "")} · {d > 0 ? `${d}d ` : ""}{h}h {String(m).padStart(2, "0")}m {String(sec).padStart(2, "0")}s
     </span>
   );
 }

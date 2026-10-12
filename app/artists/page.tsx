@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/ui";
 import { isAdmin } from "@/lib/auth/admin";
 import { getRepo } from "@/lib/db";
 import { effectiveAffinity } from "@/lib/domain/rules";
@@ -15,15 +16,14 @@ export default async function ArtistsPage() {
   const sorted = [...artists].sort((a, b) => order[effectiveAffinity(a)] - order[effectiveAffinity(b)] || a.name.localeCompare(b.name));
   return (
     <div className="space-y-4">
-      <div className="panel p-5">
-        <h1 className="text-2xl font-extrabold">Artists ({artists.length})</h1>
-        <p className="muted text-sm mt-1">
+      <PageHeader eyebrow={`${artists.length} artists`} title={<>Who we&apos;re <i>watching</i></>}>
+        <span>
           Source: {artists.some((a) => a.origin === "spotify") ? "Spotify (synced daily)" : "seed list (Spotify not connected)"}.
           Coverage target: must-see every {settings.coverage_hours.must_see}h, others every {settings.coverage_hours.default}h by the grounded scout; {overdue} currently overdue.
           Listing/news sources are checked every 5 minutes for all artists.
-        </p>
-      </div>
-      <div className="panel p-2 overflow-x-auto">
+        </span>
+      </PageHeader>
+      <div className="panel overflow-x-auto">
         <table className="t">
           <thead><tr><th>Artist</th><th>Affinity</th><th>Aliases / blocks</th><th>Last checked</th><th>Last deep (scout)</th>{admin && <th>Actions</th>}</tr></thead>
           <tbody>
@@ -44,10 +44,10 @@ export default async function ArtistsPage() {
                     <td>
                       <form action="/api/admin/artists" method="post" className="flex gap-1">
                         <input type="hidden" name="id" value={a.id} />
-                        <button className="btn" name="action" value="must_see">★</button>
-                        <button className="btn" name="action" value="like">like</button>
-                        <button className="btn" name="action" value="casual">casual</button>
-                        <button className="btn" name="action" value="toggle">{a.enabled ? "off" : "on"}</button>
+                        <button className="btn !py-1 !px-2.5 !text-xs" name="action" value="must_see">★</button>
+                        <button className="btn !py-1 !px-2.5 !text-xs" name="action" value="like">like</button>
+                        <button className="btn !py-1 !px-2.5 !text-xs" name="action" value="casual">casual</button>
+                        <button className="btn !py-1 !px-2.5 !text-xs" name="action" value="toggle">{a.enabled ? "off" : "on"}</button>
                       </form>
                     </td>
                   )}

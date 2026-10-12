@@ -16,7 +16,7 @@ export function MermaidRender() {
         div.textContent = b.textContent ?? "";
         b.parentElement?.replaceWith(div);
       }
-      m.initialize({ startOnLoad: false, theme: "dark", securityLevel: "strict" });
+      m.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "strict" });
       m.run({ querySelector: ".mermaid" });
     };
     document.body.appendChild(s);

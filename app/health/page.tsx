@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/ui";
 import { getRepo } from "@/lib/db";
 import { STATIC_SOURCES } from "@/lib/sources/registry";
 import { formatIst } from "@/lib/text/dates-ist";
@@ -22,10 +23,11 @@ export default async function HealthPage() {
 
   return (
     <div className="space-y-4">
-      <div className="panel p-5">
-        <h1 className="text-2xl font-extrabold">Trust dashboard</h1>
-        <p className="muted text-sm">Silence is information: if nothing is alerted, these numbers show what was checked.</p>
-        <div className="grid sm:grid-cols-4 gap-3 mt-4">
+      <PageHeader eyebrow="Trust dashboard" title={<>What we <i>checked</i></>}>
+        Silence is information: when nothing is alerted, these numbers show what was checked.
+      </PageHeader>
+      <div>
+        <div className="grid sm:grid-cols-4 gap-3">
           <Stat label="Last heartbeat" value={hb ? formatIst(hb.at) : "never"} sub={hb ? `lane: ${hb.lane}` : ""} />
           <Stat label="Scans (24h)" value={String(recent.length)} sub={`${recent.filter((r) => r.status === "ok").length} ok`} />
           <Stat label="Detection latency" value={`median ${fmtMins(lat.median)}`} sub={`p90 ${fmtMins(lat.p90)} · n=${lat.n} · target <10 min`} />
@@ -33,8 +35,8 @@ export default async function HealthPage() {
         </div>
       </div>
 
-      <div className="panel p-2 overflow-x-auto">
-        <h2 className="font-bold p-3">Sources</h2>
+      <div className="panel overflow-x-auto">
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase px-5 py-3.5 border-b border-[var(--border)]">Sources</h2>
         <table className="t">
           <thead><tr><th>Source</th><th>Status</th><th>Last run</th><th>Last OK</th><th>Items</th><th>First to report</th><th>Note</th></tr></thead>
           <tbody>
@@ -58,15 +60,15 @@ export default async function HealthPage() {
       </div>
 
       <div className="panel p-5">
-        <h2 className="font-bold mb-2">Coverage</h2>
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-2">Coverage</h2>
         <p className="text-sm">
           {cov.length} enabled artists · {cov.filter((c) => !c.overdue).length} within their deep-scan window · {cov.filter((c) => c.overdue).length} due now
           (must-see every {settings.coverage_hours.must_see}h, others every {settings.coverage_hours.default}h; scout runs every 30 min within the grounded budget).
         </p>
       </div>
 
-      <div className="panel p-2 overflow-x-auto">
-        <h2 className="font-bold p-3">Recent scan runs</h2>
+      <div className="panel overflow-x-auto">
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase px-5 py-3.5 border-b border-[var(--border)]">Recent scan runs</h2>
         <table className="t">
           <thead><tr><th>Started</th><th>Lane</th><th>Status</th><th>Summary</th></tr></thead>
           <tbody>
@@ -94,10 +96,10 @@ export default async function HealthPage() {
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="bg-[var(--panel-2)] rounded-xl p-3 border border-[var(--border)]">
-      <div className="text-xs muted">{label}</div>
-      <div className="font-bold mt-1">{value}</div>
-      {sub && <div className="text-xs muted mt-0.5">{sub}</div>}
+    <div className="panel p-5">
+      <div className="mono text-[10.5px] tracking-[.12em] uppercase dim">{label}</div>
+      <div className="serif text-[26px] leading-tight mt-1.5">{value}</div>
+      {sub && <div className="text-xs muted mt-1">{sub}</div>}
     </div>
   );
 }

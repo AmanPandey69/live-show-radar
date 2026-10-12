@@ -9,8 +9,8 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
   const admin = await isAdmin();
   if (!admin) {
     return (
-      <div className="panel p-6 max-w-md">
-        <h1 className="text-xl font-bold mb-2">Admin login</h1>
+      <div className="panel p-8 max-w-md mx-auto mt-6">
+        <h1 className="text-5xl mb-3">Welcome <i>back.</i></h1>
         <p className="text-sm muted mb-4">Settings, Scan now and Simulate are owner-only. The radar itself is public and read-only.</p>
         <form action="/api/admin/login" method="post" className="flex gap-2">
           <input type="password" name="password" placeholder="ADMIN_PASSWORD" required className="flex-1" />
@@ -31,7 +31,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       {sp.msg && <div className="panel p-3 text-sm">{sp.msg}</div>}
       <div className="panel p-5">
         <div className="flex justify-between items-start">
-          <h1 className="text-2xl font-extrabold">Settings</h1>
+          <h1 className="text-5xl">Settings</h1>
           <form action="/api/admin/logout" method="post"><button className="btn">Log out</button></form>
         </div>
         <div className="flex flex-wrap gap-2 mt-3">
@@ -41,7 +41,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       </div>
 
       <div className="panel p-5 space-y-3">
-        <h2 className="font-bold">Actions</h2>
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase">Actions</h2>
         <div className="flex flex-wrap gap-2">
           <form action="/api/admin/scan" method="post"><input type="hidden" name="lane" value="fast" /><button className="btn btn-primary">Scan now (listings + news)</button></form>
           <form action="/api/admin/scan" method="post"><input type="hidden" name="lane" value="deep" /><button className="btn">Deep scan (Gemini grounded scout)</button></form>
@@ -57,7 +57,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       </div>
 
       <div className="panel p-5">
-        <h2 className="font-bold mb-3">Alerts & rules</h2>
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-3">Alerts & rules</h2>
         <form action="/api/admin/settings" method="post" className="grid sm:grid-cols-2 gap-3 text-sm">
           <label className="flex gap-2 items-center"><input type="checkbox" name="ch_telegram" defaultChecked={s.channels.telegram} /> Telegram (primary)</label>
           <label className="flex gap-2 items-center"><input type="checkbox" name="ch_email" defaultChecked={s.channels.email} /> Email (secondary / fallback)</label>
@@ -72,7 +72,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       </div>
 
       <div className="panel p-5">
-        <h2 className="font-bold mb-2">Add artists without Spotify</h2>
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-2">Add artists without Spotify</h2>
         <form action="/api/admin/import" method="post" encType="multipart/form-data" className="space-y-2">
           <textarea name="text" rows={4} className="w-full" placeholder={"One per line: artist name, or a Spotify artist URL (https://open.spotify.com/artist/...)"} />
           <div className="flex gap-2 items-center text-sm"><input type="file" name="file" accept=".csv,.txt,.json" /> <span className="muted">CSV (first column = name) or Spotify data export</span></div>
@@ -81,7 +81,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       </div>
 
       <div className="panel p-5 text-sm space-y-1">
-        <h2 className="font-bold mb-2">Integration URLs</h2>
+        <h2 className="mono !text-[11px] tracking-[.14em] uppercase mb-2">Integration URLs</h2>
         <div>Spotify redirect URI: <code>{base}/api/spotify/callback</code></div>
         <div>Telegram webhook: <code>{base}/api/telegram/webhook</code> (secret header required; use the button above)</div>
         <div>Fast lane: <code>POST {base}/api/cron/scan?lane=fast</code> · Deep lane: <code>POST {base}/api/cron/scan?lane=deep</code> (Bearer CRON_SECRET)</div>

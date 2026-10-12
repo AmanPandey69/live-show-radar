@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageHeader } from "@/components/ui";
 import { getRepo } from "@/lib/db";
 import { formatIst } from "@/lib/text/dates-ist";
 import { fmtMins, latencyStats } from "@/lib/view";
@@ -13,14 +14,13 @@ export default async function AlertsPage() {
   const visible = alerts.filter((a) => !(a.payload as { bundled_into?: string }).bundled_into);
   return (
     <div className="space-y-4">
-      <div className="panel p-5">
-        <h1 className="text-2xl font-extrabold">Alert history</h1>
-        <p className="muted text-sm mt-1">
+      <PageHeader eyebrow="Detection-latency ledger" title={<>Alert <i>history</i></>}>
+        <span>
           Detection latency (first public sign → alert sent, real alerts only): median <b>{fmtMins(lat.median)}</b>, p90 <b>{fmtMins(lat.p90)}</b> over {lat.n} alerts.
           The first public sign is the source&apos;s publish time when given; otherwise our first sighting.
-        </p>
-      </div>
-      <div className="panel p-2 overflow-x-auto">
+        </span>
+      </PageHeader>
+      <div className="panel overflow-x-auto">
         <table className="t">
           <thead><tr><th>Created (IST)</th><th>Type</th><th>Pri</th><th>Alert</th><th>Latency</th><th>Channels</th></tr></thead>
           <tbody>
@@ -31,7 +31,7 @@ export default async function AlertsPage() {
               return (
                 <tr key={a.id}>
                   <td className="text-xs whitespace-nowrap">{formatIst(a.created_at)}</td>
-                  <td>{a.is_demo && <span className="chip chip-demo mr-1">DEMO</span>}{a.type}</td>
+                  <td>{a.is_demo && <span className="chip chip-demo mr-1">Demo</span>}<span className="chip">{a.type.replace(/_/g, " ")}</span></td>
                   <td>{a.priority}{a.held_for_quiet ? " (held)" : ""}</td>
                   <td className="text-xs max-w-md">
                     {a.event_id ? <Link className="underline" href={`/event/${a.event_id}`}>{((a.payload as { title?: string }).title ?? a.text.split("\n")[0])}</Link> : a.text.split("\n")[0]}

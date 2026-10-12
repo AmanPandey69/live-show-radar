@@ -9,7 +9,7 @@ export default function ComponentsMapPage() {
   const md = readFileSync(join(process.cwd(), "docs", "components-map.md"), "utf8");
   const html = marked.parse(md, { async: false }) as string;
   return (
-    <div className="panel p-6">
+    <div className="max-w-5xl">
       <div className="prose-doc" dangerouslySetInnerHTML={{ __html: html }} />
       <MermaidRender />
     </div>

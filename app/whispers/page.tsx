@@ -1,3 +1,4 @@
+import { Empty, PageHeader } from "@/components/ui";
 import { getRepo } from "@/lib/db";
 import { formatIst } from "@/lib/text/dates-ist";
 
@@ -8,15 +9,14 @@ export default async function WhispersPage() {
   const [whispers, artists, settings] = await Promise.all([repo.listWhispers(100), repo.listArtists(), repo.getSettings()]);
   return (
     <div className="space-y-4">
-      <div className="panel p-5">
-        <h1 className="text-2xl font-extrabold">Whispers <span className="chip chip-warn align-middle">SIGNAL, not an announcement</span></h1>
-        <p className="muted text-sm mt-1">
+      <PageHeader eyebrow="Signal · not an announcement" title={<>Whispers</>}>
+        <span>
           Opt-in pre-announcement signals: nearby Asia/Middle-East dates, promoter teasers, &quot;India dates soon&quot;, &quot;notify me&quot; pages.
           Never urgent, never pushed. Precision first: only signals with confidence ≥ {settings.whisper_min_confidence} and a verbatim quote are kept.
-          Feed is {settings.whispers_enabled ? "ON" : "OFF"}.
-        </p>
-      </div>
-      {whispers.length === 0 && <p className="muted text-sm">No signals right now. Better nothing than crying wolf.</p>}
+          Feed is {settings.whispers_enabled ? "on" : "off"}.
+        </span>
+      </PageHeader>
+      {whispers.length === 0 && <Empty title="No signals right now.">Better nothing than crying wolf.</Empty>}
       <div className="grid gap-3 md:grid-cols-2">
         {whispers.map((w) => (
           <div key={w.id} className="panel p-4 unconfirmed">
