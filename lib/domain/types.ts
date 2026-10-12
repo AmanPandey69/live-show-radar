@@ -82,6 +82,7 @@ export interface EventRow {
   status: EventStatus;
   confidence: Confidence;
   ticket_url: string | null;
+  image_url: string | null;
   tour_other_cities: string[];
   bengaluru_note: { text: string; url: string; snippet: string } | null;
   conflicts: Conflict[];

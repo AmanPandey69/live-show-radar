@@ -1,11 +1,14 @@
 import Link from "next/link";
-import { DateTime } from "luxon";
-import { EventCard } from "@/components/EventCard";
-import { SignalBars } from "@/components/SignalBars";
+import { CountUp } from "@/components/CountUp";
+import { EventCard, TallCard } from "@/components/EventCard";
+import { HeroCarousel, type Slide } from "@/components/HeroCarousel";
+import { Poster } from "@/components/Poster";
+import { PosterRing } from "@/components/PosterRing";
+import { TallCarousel } from "@/components/TallCarousel";
 import { Empty, SectionTitle, ticketTone } from "@/components/ui";
 import { getRepo } from "@/lib/db";
 import { formatIst, formatIstDate } from "@/lib/text/dates-ist";
-import { fmtMins, latencyStats, loadRadar } from "@/lib/view";
+import { loadRadar, type EventView } from "@/lib/view";
 
 export const dynamic = "force-dynamic";
 
@@ -13,102 +16,93 @@ function chipHref(sp: Record<string, string | undefined>, patch: Record<string, 
   const q = new URLSearchParams();
   for (const [k, v] of Object.entries({ ...sp, ...patch })) if (v) q.set(k, v);
   const s = q.toString();
-  return s ? `/?${s}` : "/";
+  return s ? `/?${s}#shows` : "/#shows";
 }
+
+const nameOf = (v: EventView) => v.artists.join(" + ") || v.event.title;
+const shortDate = (v: EventView) => (v.event.start_date_local ? formatIstDate(v.event.start_date_local).replace(/ \d{4}$/, "") : "Date TBA");
 
 export default async function RadarPage({ searchParams }: { searchParams: Promise<{ city?: string; artist?: string; demo?: string }> }) {
   const sp = await searchParams;
-  const { views, cities, artistNames, artists } = await loadRadar({ city: sp.city, artist: sp.artist });
-  const repo = getRepo();
-  const [hb, health, alerts] = await Promise.all([repo.getKv<{ at: string; lane: string }>("heartbeat"), repo.listHealth(), repo.listAlerts({ limit: 300 })]);
+  const all = await loadRadar({});
+  const filtered = sp.city || sp.artist ? await loadRadar({ city: sp.city, artist: sp.artist }) : all;
+  const { cities, artistNames, artists } = all;
+  const hb = await getRepo().getKv<{ at: string; lane: string }>("heartbeat");
   const showDemo = sp.demo !== "0";
-  const list = views.filter((v) => showDemo || !v.event.is_demo);
+  const views = all.views;
   const real = views.filter((v) => !v.event.is_demo);
-  const hot = list.filter((v) => ["hot", "soon"].includes(ticketTone(v.statusLine)));
+  const list = filtered.views.filter((v) => showDemo || !v.event.is_demo);
+  const hot = views.filter((v) => ["hot", "soon"].includes(ticketTone(v.statusLine)) && (showDemo || !v.event.is_demo));
   const home = list.filter((v) => v.isHome);
   const rest = list.filter((v) => !v.isHome);
-  const okSources = health.filter((h) => h.status === "ok").length;
-  const lat = latencyStats(alerts);
-  const top = [...list].sort((a, b) => b.event.urgency - a.event.urgency).slice(0, 5);
-  const today = DateTime.now().setZone("Asia/Kolkata").toFormat("cccc, d LLLL");
-  const hotCount = real.filter((v) => ticketTone(v.statusLine) === "hot").length;
+
+  // Hero: real shows with artwork first, hot ones first.
+  const heroPool = [...real].sort((a, b) => Number(!!b.event.image_url) - Number(!!a.event.image_url) || Number(ticketTone(b.statusLine) === "hot") - Number(ticketTone(a.statusLine) === "hot") || b.event.urgency - a.event.urgency).slice(0, 6);
+  const slides: Slide[] = heroPool.map((v) => ({
+    id: v.event.id, image: v.event.image_url, artist: nameOf(v), city: v.event.city, venue: v.event.venue_name_raw ?? "Venue TBA",
+    when: v.event.start_at ? formatIst(v.event.start_at) : v.event.start_date_local ? formatIstDate(v.event.start_date_local) : "Date TBA",
+    status: v.statusLine, hot: ticketTone(v.statusLine) === "hot", sample: v.event.is_demo,
+    target: v.countdown?.at ?? v.event.start_at ?? (v.event.start_date_local ? `${v.event.start_date_local}T13:30:00Z` : null),
+    targetLabel: v.countdown ? v.countdown.label.replace(" in", "") + " in" : "Show starts in",
+  }));
+  const ring = [...views].sort((a, b) => Number(!!b.event.image_url) - Number(!!a.event.image_url)).slice(0, 12)
+    .map((v) => ({ id: v.event.id, image: v.event.image_url, artist: nameOf(v), city: v.event.city, date: shortDate(v) }));
+  const marquee = real.map((v) => `${nameOf(v)} · ${v.event.city} · ${shortDate(v)}`);
+  const floaters = [...real].filter((v) => v.event.image_url).slice(0, 6);
 
   return (
-    <div className="space-y-14">
-      {/* Greeting */}
-      <section>
-        <div className="mono text-[11px] tracking-[.16em] uppercase muted mb-4">{today}</div>
-        <h1 className="text-[56px] sm:text-[76px] leading-[.95]">Hello, <i className="text-[var(--accent)]">Karan.</i></h1>
-        <p className="muted text-[16px] mt-3 max-w-2xl">
-          {hotCount > 0
-            ? `${hotCount} show${hotCount > 1 ? "s have" : " has"} early-bird tickets open right now. These usually sell out within about 6 hours.`
-            : `${real.length} upcoming India shows from the artists you follow. Nothing needs you this minute.`}
-        </p>
-        <div className="flex flex-wrap gap-2 mt-6">
-          <Link href="#bengaluru" className="btn">Bengaluru</Link>
-          <Link href="/alerts" className="btn">Alert history</Link>
-          <Link href="/health" className="btn">↻ What we checked</Link>
-          <Link href="/artists" className="btn">{artists.length} artists</Link>
-        </div>
-      </section>
+    <div className="space-y-20">
+      <HeroCarousel
+        slides={slides}
+        stats={
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl">
+            <MiniStat v={real.length} l="Upcoming India shows" />
+            <MiniStat v={real.filter((x) => x.isHome).length} l="In Bengaluru" />
+            <MiniStat v={real.filter((x) => ticketTone(x.statusLine) === "hot").length} l="Early-bird open now" />
+            <MiniStat v={artists.length} l="Artists watched" />
+          </div>
+        }
+      />
 
-      {/* Radar log: highest-urgency shows, waveform meter = urgency */}
-      <section className="panel overflow-hidden">
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-[var(--border)]">
-          <div className="mono text-[11px] tracking-[.14em] uppercase flex items-center gap-2"><span className="radar-dot" /> Radar log</div>
-          <div className="mono text-[11px] tracking-[.14em] uppercase muted">by urgency</div>
-        </div>
-        {top.length === 0 && <div className="p-6 muted text-sm">No shows yet. The next scan will fill this in.</div>}
-        {top.map((v) => (
-          <Link key={v.event.id} href={`/event/${v.event.id}`} className="block px-5 py-4 border-b border-[var(--border)] last:border-b-0 hover:bg-[var(--paper)] transition">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="font-semibold truncate">{v.artists.join(" + ") || v.event.title}</span>
-                <span className={`w-1.5 h-1.5 rounded-full ${ticketTone(v.statusLine) === "hot" ? "bg-[var(--accent)]" : v.event.confidence === "confirmed" ? "bg-[var(--ok)]" : "bg-[#d99a00]"}`} />
-                <span className="text-sm muted truncate">{v.event.confidence}{v.event.is_demo ? " · sample" : ""}</span>
-              </div>
-              <span className="text-sm muted shrink-0">{v.event.start_date_local ? formatIstDate(v.event.start_date_local) : "date TBA"}</span>
-            </div>
-            <div className="my-2.5"><SignalBars value={v.event.urgency} hot={ticketTone(v.statusLine) === "hot"} /></div>
-            <div className="flex justify-between gap-3 mono text-[10.5px] tracking-[.08em] uppercase muted">
-              <span className="truncate">{v.statusLine}</span>
-              <span className="shrink-0">{v.event.city}</span>
-            </div>
-          </Link>
-        ))}
-      </section>
-
-      {/* Radar pulse */}
-      <section className="rounded-[22px] bg-[var(--ink)] text-[#f4f0e8] overflow-hidden">
-        <div className="px-6 py-4 flex items-baseline gap-3 border-b border-white/10">
-          <span className="serif text-2xl">Radar pulse</span>
-          <span className="mono text-[10.5px] tracking-[.14em] uppercase text-white/50">live</span>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4">
-          {[
-            ["Upcoming shows", String(real.length)],
-            ["In Bengaluru", String(real.filter((v) => v.isHome).length)],
-            ["Median time to alert", fmtMins(lat.median)],
-            ["Sources healthy", `${okSources}/${health.length || okSources}`],
-          ].map(([l, v], i) => (
-            <div key={l} className={`px-6 py-5 ${i % 2 === 1 ? "border-l border-white/10" : ""} ${i >= 2 ? "border-t md:border-t-0 border-white/10" : ""} ${i === 2 ? "md:border-l" : ""}`}>
-              <div className="mono text-[10.5px] tracking-[.12em] uppercase text-white/50">{l}</div>
-              <div className="serif text-[44px] leading-none mt-2">{v}</div>
+      {marquee.length > 0 && (
+        <div className="marquee -mt-10 py-4 border-y border-white/10">
+          {[0, 1].map((k) => (
+            <div key={k} className="marquee-track" aria-hidden={k === 1}>
+              {marquee.map((m, i) => (
+                <span key={`${k}-${i}`} className="display text-lg sm:text-xl font-bold whitespace-nowrap flex items-center gap-10">
+                  <span className={i % 2 ? "text-white/85" : "grad-text"}>{m}</span><span className="text-[#c084fc]">✦</span>
+                </span>
+              ))}
             </div>
           ))}
         </div>
-        <div className="px-6 py-3 border-t border-white/10 mono text-[10.5px] tracking-[.1em] uppercase text-white/45">
-          {hb ? `Last scan ${formatIst(hb.at)} · ${hb.lane} lane` : "No scan yet"} · {artists.length} artists watched
-        </div>
-      </section>
+      )}
 
-      {/* Filters */}
-      <section className="space-y-3">
+      {hot.length > 0 && (
+        <section className="reveal">
+          <SectionTitle label="Act now" title={<>Early-birds <span className="grad-text">open or opening</span></>} sub="These usually sell out within about 6 hours" />
+          <TallCarousel>{hot.map((v) => <TallCard key={`hot-${v.event.id}`} v={v} />)}</TallCarousel>
+        </section>
+      )}
+
+      {ring.length >= 3 && (
+        <section className="relative">
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="text-[11px] font-semibold tracking-[.18em] uppercase text-[#f0abfc] mb-2">On the radar</div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold">Every show, <span className="grad-text">always spinning.</span></h2>
+            <p className="muted mt-3">Hover to pause the ring, click a poster to open the show. {hb ? `Last scan ${formatIst(hb.at)}.` : ""}</p>
+          </div>
+          <PosterRing items={ring} />
+        </section>
+      )}
+
+      <section id="shows" className="space-y-4 scroll-mt-24">
+        <SectionTitle label="Browse" title={<>Find your <span className="grad-text">next night out</span></>} />
         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
           <Link href={chipHref(sp, { city: undefined })} className={`filter-chip ${!sp.city ? "active" : ""}`}>All cities</Link>
           {cities.map((c) => <Link key={c} href={chipHref(sp, { city: c })} className={`filter-chip ${sp.city === c ? "active" : ""}`}>{c}</Link>)}
         </div>
-        <form className="flex flex-wrap gap-2 items-center" action="/">
+        <form className="flex flex-wrap gap-2 items-center" action="/#shows">
           {sp.city && <input type="hidden" name="city" value={sp.city} />}
           <select name="artist" defaultValue={sp.artist ?? ""}>
             <option value="">All artists</option>
@@ -119,35 +113,57 @@ export default async function RadarPage({ searchParams }: { searchParams: Promis
             <option value="0">Real shows only</option>
           </select>
           <button className="btn btn-primary">Apply</button>
-          {(sp.city || sp.artist || sp.demo) && <Link className="text-sm muted underline underline-offset-4" href="/">Reset</Link>}
-          <span className="mono text-[10px] tracking-[.08em] uppercase dim ml-auto hidden md:block">Dashed border = unconfirmed · Sample = demo, never alerts</span>
+          {(sp.city || sp.artist || sp.demo) && <Link className="text-sm muted underline underline-offset-4" href="/#shows">Reset</Link>}
+          <span className="text-[11px] dim ml-auto hidden md:block">Dashed border = unconfirmed source · Sample = demo data, never alerts</span>
         </form>
       </section>
 
-      {hot.length > 0 && (
-        <section>
-          <SectionTitle label="Act now" title={<>Early-birds <i>open or opening</i></>} count={hot.length} sub="sell out in ~6 hours" />
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{hot.map((v) => <EventCard key={`hot-${v.event.id}`} v={v} />)}</div>
-        </section>
-      )}
-
       <section id="bengaluru">
-        <SectionTitle label="Home city · top priority" title="Bengaluru" count={home.length} sub="shows" />
+        <SectionTitle label="Home city · top priority" title={<>📍 Bengaluru</>} count={home.length} />
         {home.length ? (
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{home.map((v) => <EventCard key={v.event.id} v={v} />)}</div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{home.map((v) => <EventCard key={v.event.id} v={v} />)}</div>
         ) : (
-          <Empty title="Nothing in Bengaluru right now.">Silence means checked, not broken. See <Link className="underline" href="/health">Health</Link>.</Empty>
+          <Empty title="Nothing in Bengaluru right now">Silence means checked, not broken. See <Link className="underline" href="/health">Health</Link>.</Empty>
         )}
       </section>
 
       <section>
-        <SectionTitle label="Worth the trip?" title={<>Rest of <i>India</i></>} count={rest.length} sub="with travel cards" />
+        <SectionTitle label="Worth the trip?" title={<>🇮🇳 Rest of <span className="grad-text">India</span></>} count={rest.length} />
         {rest.length ? (
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{rest.map((v) => <EventCard key={v.event.id} v={v} />)}</div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{rest.map((v) => <EventCard key={v.event.id} v={v} />)}</div>
         ) : (
-          <Empty title="No other India shows found yet." />
+          <Empty title="No other India shows found yet" />
         )}
       </section>
+
+      {/* Soundtacular-style CTA with floating posters */}
+      <section className="relative overflow-hidden rounded-[32px] border border-white/10 px-6 py-16 sm:py-24 text-center" style={{ background: "radial-gradient(600px 300px at 50% 0%, rgba(236,72,153,.35), transparent 70%), linear-gradient(135deg, #2e1065, #4c1d95 45%, #1e1b4b)" }}>
+        {floaters.map((v, k) => {
+          const pos = [["6%", "12%", -8], ["80%", "8%", 7], ["4%", "62%", 6], ["84%", "58%", -6], ["22%", "78%", -4], ["68%", "80%", 5]][k];
+          return (
+            <Link key={v.event.id} href={`/event/${v.event.id}`} className="hidden md:block absolute w-[130px] h-[150px] rounded-2xl overflow-hidden border border-white/20 shadow-2xl hover:scale-110 transition" style={{ left: pos[0] as string, top: pos[1] as string, transform: `rotate(${pos[2]}deg)`, animation: `float ${8 + k}s ease-in-out infinite alternate` }}>
+              <Poster src={v.event.image_url} name={nameOf(v)} className="w-full h-full object-cover" fontSize={18} />
+            </Link>
+          );
+        })}
+        <div className="relative z-10 max-w-xl mx-auto">
+          <h2 className="text-4xl sm:text-6xl font-extrabold">Get tickets <span className="grad-text">first.</span></h2>
+          <p className="text-white/75 mt-4">One Telegram ping the minute a show or early-bird drops, with the venue, the IST time and the ticket link. Every fact is quoted from its source.</p>
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
+            <Link href="#bengaluru" className="btn btn-primary">Browse Bengaluru shows</Link>
+            <Link href="/alerts" className="btn">See past alerts</Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function MiniStat({ v, l }: { v: number; l: string }) {
+  return (
+    <div className="stat">
+      <div className="v"><CountUp to={v} /></div>
+      <div className="l">{l}</div>
     </div>
   );
 }

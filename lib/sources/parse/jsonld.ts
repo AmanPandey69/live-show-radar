@@ -116,6 +116,13 @@ function offerTiers(offers: unknown, eventStartIso: string | null, now: Date): T
   });
 }
 
+/** Poster/cover image URL from Event JSON-LD (string, array or ImageObject). */
+export function jsonLdImage(ev: Json): string | null {
+  const im = ev.image as unknown;
+  const pick = (v: unknown): string | null => (typeof v === "string" && /^https?:\/\//.test(v) ? v : v && typeof v === "object" && typeof (v as Json).url === "string" ? String((v as Json).url) : null);
+  return Array.isArray(im) ? im.map(pick).find(Boolean) ?? null : pick(im);
+}
+
 export function jsonLdToCandidate(ev: Json, pageUrl: string, now: Date = new Date()): Candidate | null {
   const name = str(ev.name);
   const start = str(ev.startDate);

@@ -98,7 +98,7 @@ function Stat({ label, value, sub }: { label: string; value: string; sub?: strin
   return (
     <div className="panel p-5">
       <div className="mono text-[10.5px] tracking-[.12em] uppercase dim">{label}</div>
-      <div className="serif text-[26px] leading-tight mt-1.5">{value}</div>
+      <div className="display font-bold text-[24px] leading-tight mt-1.5">{value}</div>
       {sub && <div className="text-xs muted mt-1">{sub}</div>}
     </div>
   );

@@ -2,10 +2,10 @@ import { DateTime } from "luxon";
 
 export function PageHeader({ eyebrow, title, children, right }: { eyebrow?: string; title: React.ReactNode; children?: React.ReactNode; right?: React.ReactNode }) {
   return (
-    <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+    <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 reveal">
       <div>
-        {eyebrow && <div className="mono text-[11px] tracking-[.16em] uppercase text-[var(--accent)] mb-3">{eyebrow}</div>}
-        <h1 className="text-5xl sm:text-6xl leading-[.95]">{title}</h1>
+        {eyebrow && <div className="text-[11px] font-semibold tracking-[.18em] uppercase text-[#f0abfc] mb-3">{eyebrow}</div>}
+        <h1 className="text-4xl sm:text-6xl font-extrabold leading-[1]">{title}</h1>
         {children && <div className="muted mt-3 max-w-2xl text-[15px] leading-relaxed">{children}</div>}
       </div>
       {right}
@@ -13,9 +13,9 @@ export function PageHeader({ eyebrow, title, children, right }: { eyebrow?: stri
   );
 }
 
-export function Stat({ value, label, light }: { value: string | number; label: string; light?: boolean }) {
+export function Stat({ value, label }: { value: React.ReactNode; label: string; light?: boolean }) {
   return (
-    <div className={`stat ${light ? "stat-light" : ""}`}>
+    <div className="stat">
       <div className="v">{value}</div>
       <div className="l">{label}</div>
     </div>
@@ -56,7 +56,7 @@ export function TicketLine({ line }: { line: string }) {
 export function Empty({ title, children }: { title: string; children?: React.ReactNode }) {
   return (
     <div className="panel p-10 text-center">
-      <div className="serif italic text-2xl">{title}</div>
+      <div className="display text-2xl font-bold">{title}</div>
       {children && <div className="text-sm muted mt-2">{children}</div>}
     </div>
   );
@@ -64,15 +64,13 @@ export function Empty({ title, children }: { title: string; children?: React.Rea
 
 export function SectionTitle({ title, sub, count, label }: { title: React.ReactNode; sub?: string; count?: number; label?: string }) {
   return (
-    <div className="flex items-end justify-between gap-4 mb-5 border-b border-[var(--border)] pb-3">
+    <div className="flex items-end justify-between gap-4 mb-6">
       <div>
-        {label && <div className="mono text-[10.5px] tracking-[.16em] uppercase dim mb-1">{label}</div>}
-        <h2 className="text-4xl leading-none">{title}</h2>
+        {label && <div className="text-[11px] font-semibold tracking-[.18em] uppercase text-[#f0abfc] mb-2">{label}</div>}
+        <h2 className="text-3xl sm:text-4xl font-extrabold leading-none">{title}</h2>
+        {sub && <div className="text-sm muted mt-2">{sub}</div>}
       </div>
-      <div className="text-right">
-        {count !== undefined && <div className="serif text-3xl leading-none">{count}</div>}
-        {sub && <div className="mono text-[10px] tracking-[.1em] uppercase dim mt-1">{sub}</div>}
-      </div>
+      {count !== undefined && <div className="display text-5xl font-extrabold leading-none grad-text">{count}</div>}
     </div>
   );
 }

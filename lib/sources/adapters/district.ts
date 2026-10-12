@@ -1,6 +1,6 @@
 import type { ObservationInput } from "@/lib/domain/schemas";
 import { slugToText } from "@/lib/text/normalize";
-import { extractJsonLd, isEvent, jsonLdToCandidate } from "../parse/jsonld";
+import { extractJsonLd, isEvent, jsonLdImage, jsonLdToCandidate } from "../parse/jsonld";
 import { parseSitemap } from "../parse/rss";
 import type { SourceAdapter } from "../types";
 import { obs, timeLeft } from "./common";
@@ -55,7 +55,7 @@ export const districtAdapter: SourceAdapter = {
         for (const ev of events) {
           const candidate = jsonLdToCandidate(ev, u.loc, ctx.now);
           if (!candidate) continue;
-          out.push(obs({ source_id: this.id, url: u.loc, text, title: candidate.title, snippet: candidate.title, candidate, is_primary: true, now: ctx.now }));
+          out.push({ ...obs({ source_id: this.id, url: u.loc, text, title: candidate.title, snippet: candidate.title, candidate, is_primary: true, now: ctx.now }), image_url: jsonLdImage(ev) });
         }
         seen[u.loc] = u.lastmod ?? "";
       } catch (e) {

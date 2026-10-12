@@ -19,6 +19,7 @@ export interface MergeInput {
   observation_id: string | null;
   published_at: string | null;
   is_demo: boolean;
+  image_url?: string | null;
 }
 
 export interface MergeResult { before: Snapshot | null; after: Snapshot; isNew: boolean }
@@ -130,6 +131,7 @@ export async function mergeCandidate(repo: Repo, m: MergeInput, artists: Artist[
         status: "announced",
         confidence: m.is_primary ? "confirmed" : "unconfirmed",
         ticket_url: c.ticket_url ?? (m.is_primary ? m.url : null),
+        image_url: m.image_url ?? null,
         tour_other_cities: c.other_india_cities.map((x) => canonicalCity(x) ?? x).filter((x) => x !== city),
         bengaluru_note: c.bengaluru_mention ? { text: c.bengaluru_mention, url: m.url, snippet: c.bengaluru_mention } : null,
         conflicts: [],
@@ -167,6 +169,7 @@ export async function mergeCandidate(repo: Repo, m: MergeInput, artists: Artist[
       if (venue && !existing.venue_id) patch.venue_id = venue.id;
     }
     if (!existing.ticket_url && (c.ticket_url || m.is_primary)) patch.ticket_url = c.ticket_url ?? m.url;
+    if (m.image_url && (!existing.image_url || (m.is_primary && existing.image_url !== m.image_url && /district\.in/.test(m.image_url)))) patch.image_url = m.image_url;
     if (m.is_primary && c.ticket_url && existing.ticket_url && !isPrimaryUrl(existing.ticket_url)) patch.ticket_url = c.ticket_url;
     const heads = [...new Set([...existing.headliner_ids, ...m.headliner_ids])];
     const sups = [...new Set([...existing.support_ids, ...m.support_ids])].filter((x) => !heads.includes(x));

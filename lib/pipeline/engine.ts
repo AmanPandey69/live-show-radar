@@ -175,7 +175,7 @@ export class Engine {
     const merged = await mergeCandidate(this.repo, {
       candidate: c, headliner_ids: headliner_ids.length ? headliner_ids : support_ids, support_ids: headliner_ids.length ? support_ids : [],
       source_id: o.source_id, url: o.url, is_primary: o.is_primary, snippet: o.snippet ?? c.title, observation_id: obsId,
-      published_at: o.published_at, is_demo: !!o.is_demo,
+      published_at: o.published_at, is_demo: !!o.is_demo, image_url: o.image_url ?? null,
     }, this.artists, this.opts.homeCity, this.now());
     if (merged.isNew) this.stats.newEvents++;
     await this.repo.touchArtists(resolved.map((m) => m.artist_id), "last_checked_at", this.now().toISOString());

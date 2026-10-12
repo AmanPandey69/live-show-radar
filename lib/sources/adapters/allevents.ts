@@ -1,5 +1,5 @@
 import type { ObservationInput } from "@/lib/domain/schemas";
-import { extractJsonLd, isEvent, jsonLdToCandidate } from "../parse/jsonld";
+import { extractJsonLd, isEvent, jsonLdImage, jsonLdToCandidate } from "../parse/jsonld";
 import type { SourceAdapter } from "../types";
 import { obs, rotate, timeLeft } from "./common";
 
@@ -44,7 +44,7 @@ export const alleventsAdapter: SourceAdapter = {
         const candidate = jsonLdToCandidate(ev, String(ev.url ?? url), ctx.now);
         if (!candidate) continue;
         const evUrl = typeof ev.url === "string" ? ev.url : url;
-        out.push(obs({ source_id: this.id, url: evUrl, text: JSON.stringify(ev), title: name, snippet: name, candidate, is_primary: false, now: ctx.now }));
+        out.push({ ...obs({ source_id: this.id, url: evUrl, text: JSON.stringify(ev), title: name, snippet: name, candidate, is_primary: false, now: ctx.now }), image_url: jsonLdImage(ev) });
       }
     }
     return out;

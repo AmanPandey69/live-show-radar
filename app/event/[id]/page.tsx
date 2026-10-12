@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ConfidenceChip, StatusChip } from "@/components/EventCard";
 import { Countdown } from "@/components/Countdown";
+import { Poster } from "@/components/Poster";
 import { SignalBars } from "@/components/SignalBars";
 import { DateBlock, TicketLine, ticketTone } from "@/components/ui";
 import { googleCalendarUrl } from "@/lib/alerts/ics";
@@ -37,7 +38,12 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
       <Link href="/" className="mono text-[11px] tracking-[.14em] uppercase muted hover:text-[var(--text)]">← Back to radar</Link>
 
       {/* Header */}
-      <section className={`panel p-6 sm:p-8 ${e.confidence !== "confirmed" ? "unconfirmed" : ""}`}>
+      <section className={`panel relative overflow-hidden p-6 sm:p-8 ${e.confidence !== "confirmed" ? "unconfirmed" : ""}`}>
+        <div className="absolute inset-0 -z-0 opacity-45">
+          <Poster src={e.image_url} name={names.join(" + ")} className="w-full h-full object-cover blur-[2px] scale-105" fontSize={120} />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07040f] via-[#07040f]/85 to-[#2e1065]/40" />
+        <div className="relative">
         <div className="flex flex-wrap gap-1.5 mb-5">
           {e.is_demo && <span className="chip chip-demo">Sample · demo data</span>}
           <span className="chip chip-dark">{e.priority}</span>
@@ -48,7 +54,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         <div className="flex gap-5 items-start">
           <div className="scale-110 origin-top-left hidden sm:block"><DateBlock date={e.start_date_local} iso={e.start_at} /></div>
           <div className="min-w-0">
-            <h1 className="text-5xl sm:text-7xl leading-[.92]">{names.join(" + ")}</h1>
+            <h1 className="text-5xl sm:text-7xl font-extrabold leading-[.92]">{names.join(" + ")}</h1>
             <p className="muted mt-3">{e.title}</p>
           </div>
         </div>
@@ -65,6 +71,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
           {watched[0] && <Countdown at={watched[0].sale_start_at!} label="Sale opens in" />}
         </div>
         {e.confidence !== "confirmed" && <p className="text-sm mt-5 text-[var(--warn)]">Unconfirmed: evidence so far is from a single non-official source. Check the ticket link before paying.</p>}
+        </div>
       </section>
 
       <div className="grid lg:grid-cols-[1.6fr_1fr] gap-6 items-start">
@@ -92,7 +99,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
                       <Info label="Sale opens" value={t.sale_start_at ? formatIst(t.sale_start_at) : "Not stated"} />
                       <Info label="Sale closes" value={t.sale_end_at ? formatIst(t.sale_end_at) : "Not stated"} />
                     </div>
-                    <blockquote className="serif italic text-[17px] mt-3 pl-3 border-l-2 border-[var(--accent)] text-[var(--muted)]">“{t.evidence_snippet}”</blockquote>
+                    <blockquote className="italic text-[14px] mt-3 pl-3 border-l-2 border-[var(--accent)] text-[var(--muted)]">“{t.evidence_snippet}”</blockquote>
                   </div>
                 ))}
               </div>
@@ -125,9 +132,9 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
         </div>
 
         <div className="space-y-6">
-          <section className="rounded-[22px] bg-[var(--ink)] text-[#f4f0e8] p-6">
+          <section className="rounded-[22px] p-6 border border-white/10" style={{ background: "linear-gradient(135deg, #4c1d95, #831843)" }}>
             <div className="mono text-[10.5px] tracking-[.14em] uppercase text-white/50">Urgency</div>
-            <div className="serif text-6xl leading-none mt-2">{e.urgency}<span className="text-2xl text-white/40">/100</span></div>
+            <div className="display font-extrabold text-6xl leading-none mt-2">{e.urgency}<span className="text-2xl text-white/40">/100</span></div>
             <div className="mt-4 [&_span]:!bg-white/80"><SignalBars value={e.urgency} hot={ticketTone(line) === "hot"} n={26} /></div>
             <p className="text-sm text-white/60 mt-4">Combines your affinity, Bengaluru-first, venue size (approx.), early-bird state and how fresh the announcement is. It decides the channel and the reminders.</p>
           </section>
@@ -135,7 +142,7 @@ export default async function EventPage({ params }: { params: Promise<{ id: stri
           {card.length > 0 && (
             <section className="panel p-6">
               <div className="mono text-[10.5px] tracking-[.14em] uppercase text-[var(--accent)]">Decision card</div>
-              <h3 className="serif !font-normal text-3xl mt-1">Worth the trip?</h3>
+              <h3 className="display font-extrabold text-3xl mt-1">Worth the trip?</h3>
               <ul className="mt-3 space-y-2 text-sm">{card.map((l) => <li key={l} className="flex gap-2"><span className="text-[var(--accent)]">→</span><span>{l}</span></li>)}</ul>
               <p className="mono text-[10px] tracking-[.06em] uppercase dim mt-4">Approximate static travel table · no fares</p>
             </section>

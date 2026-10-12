@@ -65,6 +65,7 @@ export interface ObservationInput {
   is_primary: boolean;
   is_demo?: boolean;
   image?: { mimeType: string; base64: string } | null; // posters (Telegram share)
+  image_url?: string | null; // public poster/cover URL from the source page (display only)
 }
 
 export const ExtractionZ = z.object({
